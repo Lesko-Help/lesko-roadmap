@@ -1,0 +1,602 @@
+<title>Your Grant Roadmap — LeskoHelp</title>
+<style>
+  :root{
+    --blue:#2c3fa0; --blue-deep:#1e2c7a;
+    --yellow:#fdc830; --yellow-warm:#ffb300;
+    --red:#e63946; --red-deep:#c62d3a;
+    --green:#4fa84f; --green-deep:#357a35;
+    --paper:#faf6ec; --cream:#f4ecd4; --cream-2:#ede6cf;
+    --ink:#0e1a2b; --ink-soft:#2a3548; --ink-mid:#586577;
+    --line:#d8d0bc; --line-soft:#e6dfca;
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans); background:var(--paper); color:var(--ink);
+    line-height:1.55; font-size:16px; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:32px 20px 80px;position:relative}
+
+  /* decorative background question marks */
+  .bg-q{
+    position:absolute; font-family:var(--serif); font-style:italic; font-weight:700;
+    color:var(--yellow); opacity:.14; line-height:1; pointer-events:none; z-index:0;
+    user-select:none;
+  }
+  .bg-q.q1{font-size:340px; top:-60px; right:-90px; transform:rotate(14deg)}
+  .bg-q.q2{font-size:260px; bottom:8%; left:-100px; transform:rotate(-10deg); color:var(--blue); opacity:.06}
+
+  /* ── HEADER ── */
+  header{position:relative;z-index:1;margin-bottom:28px}
+  .brandline{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .logo-mark{
+    width:38px;height:38px;background:var(--blue);color:var(--yellow);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-weight:700;font-style:italic;font-size:22px;
+    transform:rotate(-8deg); box-shadow:0 0 0 3px var(--paper),0 0 0 4px var(--blue);
+    flex-shrink:0;
+  }
+  .brand-name{font-family:var(--serif);font-weight:700;font-size:20px;letter-spacing:-.02em}
+  .brand-name em{font-style:italic}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.18em;
+    color:var(--red);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:10px;
+  }
+  .eyebrow::after{content:'';height:1px;flex:1;background:var(--red);opacity:.35}
+  h1{
+    font-family:var(--serif);font-weight:500;font-size:clamp(30px,6vw,42px);
+    letter-spacing:-.02em;line-height:1.06;margin-bottom:10px;text-wrap:balance;
+  }
+  h1 em{font-style:italic;color:var(--red)}
+  .hl{background-image:linear-gradient(180deg,transparent 62%,var(--yellow) 62%,var(--yellow) 94%,transparent 94%);padding:0 3px}
+  .intro{color:var(--ink-mid);font-size:15px;max-width:52ch}
+
+  /* ── PROGRESS CARD ── */
+  .progress-card{
+    position:relative;z-index:1;
+    background:#fff; border:2px solid var(--ink); border-radius:10px;
+    box-shadow:5px 5px 0 var(--ink); padding:20px 22px 24px; margin-bottom:40px;
+    transform:rotate(-.4deg);
+  }
+  .progress-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .progress-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-mid);font-weight:600}
+  .progress-pct{
+    font-family:var(--serif);font-weight:700;font-size:40px;line-height:1;letter-spacing:-.03em;
+    font-variant-numeric:tabular-nums;
+  }
+  .progress-pct sub{font-size:16px;font-style:italic;color:var(--ink-mid);font-weight:400}
+  .progress-count{font-size:13px;color:var(--ink-mid)}
+  .bar{
+    height:16px;border:2px solid var(--ink);border-radius:100px;background:var(--cream);
+    overflow:hidden;position:relative;
+  }
+  .bar-fill{
+    height:100%;width:0%;border-radius:100px;
+    background:repeating-linear-gradient(-45deg,var(--green) 0 10px,var(--green-deep) 10px 20px);
+    transition:width .6s cubic-bezier(.22,1,.36,1);
+  }
+  .milestones{display:flex;justify-content:space-between;margin-top:10px;padding:0 2px}
+  .milestone{
+    font-family:var(--serif);font-size:18px;font-weight:700;
+    color:var(--line);transition:color .4s, transform .4s;
+  }
+  .milestone.lit{transform:scale(1.25) rotate(-8deg)}
+  .milestone.lit.s-spade{color:var(--blue)}
+  .milestone.lit.s-heart{color:var(--red)}
+  .milestone.lit.s-diamond{color:var(--yellow-warm)}
+  .milestone.lit.s-club{color:var(--green)}
+  .cheer{
+    margin-top:12px;font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink-soft);
+    min-height:20px;
+  }
+
+  /* ── SECTION HEADINGS ── */
+  .section-head{position:relative;z-index:1;display:flex;align-items:center;gap:12px;margin:0 0 18px}
+  .section-suit{
+    width:34px;height:34px;border-radius:8px;border:2px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:18px;font-weight:700;flex-shrink:0;
+    box-shadow:3px 3px 0 var(--ink);
+  }
+  .section-head h2{font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:-.01em}
+  .section-head .count-chip{
+    margin-left:auto;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;
+    background:var(--cream);border:1.5px solid var(--ink);border-radius:100px;padding:4px 10px;
+    font-variant-numeric:tabular-nums;white-space:nowrap;
+  }
+
+  /* ── ONBOARDING CARD ── */
+  .onboard{
+    position:relative;z-index:1;
+    background:#fff;border:2px solid var(--ink);border-radius:10px;
+    box-shadow:5px 5px 0 var(--ink);padding:8px 0;margin-bottom:44px;
+  }
+  .mini-item{
+    display:flex;align-items:center;gap:14px;padding:13px 18px;
+    border-bottom:1px solid var(--line-soft);cursor:pointer;transition:background .15s;
+  }
+  .mini-item:last-child{border-bottom:none}
+  .mini-item:hover{background:var(--paper)}
+  .mini-item .txt{flex:1;font-size:14.5px;font-weight:500}
+  .mini-item .sub{display:block;font-size:12px;color:var(--ink-mid);font-weight:400;margin-top:1px}
+  .mini-item.done .txt{color:var(--ink-mid)}
+  .mini-item.done .txt .label{text-decoration:line-through;text-decoration-color:var(--green);text-decoration-thickness:2px}
+  .mini-link{
+    display:inline-flex;align-items:center;gap:5px;margin-top:6px;
+    font-family:var(--sans);font-size:12px;font-weight:600;color:var(--blue);
+    background:#fff;border:1.5px solid var(--blue);border-radius:100px;
+    padding:4px 12px;text-decoration:none;transition:background .15s,color .15s;
+  }
+  .mini-link:hover{background:var(--blue);color:var(--paper)}
+  .badge-important{
+    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--yellow);border:1.5px solid var(--ink);border-radius:4px;padding:2px 6px;
+    transform:rotate(-2deg);white-space:nowrap;
+  }
+
+  /* ── CHECK CIRCLES ── */
+  .check{
+    width:28px;height:28px;border-radius:50%;border:2px solid var(--ink);background:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;
+    transition:background .2s,transform .15s; font-size:15px;color:transparent;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .check:hover{transform:scale(1.12)}
+  .check:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .check.on{background:var(--green);border-color:var(--green-deep);color:#fff;animation:pop .35s cubic-bezier(.22,2.2,.4,1)}
+  @keyframes pop{0%{transform:scale(.6) rotate(-20deg)}70%{transform:scale(1.25) rotate(6deg)}100%{transform:scale(1) rotate(0)}}
+
+  /* ── ROADMAP STEPS ── */
+  .roadmap{position:relative;z-index:1;padding-left:20px}
+  .roadmap::before{
+    content:'';position:absolute;left:33px;top:14px;bottom:14px;width:0;
+    border-left:3px dashed var(--line);z-index:0;
+  }
+  .step{
+    position:relative;display:flex;gap:16px;margin-bottom:22px;z-index:1;
+  }
+  .step-check-col{position:relative;z-index:2;padding-top:20px}
+  .step .check{width:30px;height:30px;box-shadow:0 0 0 4px var(--paper)}
+  .step-card{
+    flex:1;background:#fff;border:2px solid var(--ink);border-radius:10px;
+    box-shadow:4px 4px 0 var(--ink);padding:18px 20px;transition:transform .2s, box-shadow .2s;
+  }
+  .step:nth-child(odd) .step-card{transform:rotate(.35deg)}
+  .step:nth-child(even) .step-card{transform:rotate(-.35deg)}
+  .step-card:hover{transform:rotate(0) translateY(-2px);box-shadow:6px 6px 0 var(--ink)}
+  .step.done .step-card{background:#f2f8f0;border-color:var(--green-deep);box-shadow:4px 4px 0 var(--green-deep)}
+  .step-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+  .step-num{
+    font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--red);
+  }
+  .step.done .step-num{color:var(--green-deep)}
+  .suit{font-family:var(--serif);font-size:15px;font-weight:700}
+  .done-chip{
+    margin-left:auto;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;
+    background:var(--green);color:#fff;border-radius:100px;padding:3px 9px;
+    display:none;align-items:center;gap:4px;
+  }
+  .step.done .done-chip{display:inline-flex}
+  .step-card h3{font-family:var(--serif);font-weight:600;font-size:18.5px;letter-spacing:-.01em;margin-bottom:6px}
+  .step.done h3{color:var(--ink-mid)}
+  .step-desc{font-size:13.5px;color:var(--ink-mid);margin-bottom:14px;max-width:56ch}
+  .step-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .btn-go{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--red);color:var(--paper);border:none;border-radius:100px;
+    padding:8px 16px;font-size:13px;font-weight:600;font-family:var(--sans);
+    cursor:pointer;text-decoration:none;transition:background .15s,transform .15s;
+  }
+  .btn-go:hover{background:var(--red-deep);transform:translateY(-1px)}
+  .btn-note{
+    display:inline-flex;align-items:center;gap:6px;
+    background:transparent;color:var(--ink-soft);border:1.5px solid var(--line);
+    border-radius:100px;padding:7px 14px;font-size:12.5px;font-weight:500;font-family:var(--sans);
+    cursor:pointer;transition:border-color .15s,color .15s;
+  }
+  .btn-note:hover{border-color:var(--ink);color:var(--ink)}
+  .btn-note .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow-warm);display:none}
+  .btn-note.has-note .dot{display:block}
+  .note-area{display:none;margin-top:12px}
+  .note-area.open{display:block}
+  .note-area textarea{
+    width:100%;min-height:64px;border:1.5px solid var(--line);border-radius:8px;
+    background:var(--paper);padding:10px 12px;font-family:var(--sans);font-size:13px;color:var(--ink);
+    resize:vertical;
+  }
+  .note-area textarea:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+  .note-hint{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mid);margin-top:5px}
+
+  /* ── REWARD ── */
+  .reward{
+    position:relative;z-index:1;margin-top:44px;
+    background:var(--blue);border:2px solid var(--ink);border-radius:12px;
+    box-shadow:6px 6px 0 var(--ink);padding:32px 26px;text-align:center;color:var(--paper);
+    overflow:hidden;
+  }
+  .reward::before{
+    content:'?';position:absolute;font-family:var(--serif);font-style:italic;font-weight:700;
+    font-size:220px;color:rgba(250,246,236,.08);top:-50px;left:-20px;line-height:1;
+  }
+  .reward-stamp{
+    width:110px;height:110px;margin:0 auto 16px;border-radius:50%;
+    background:var(--cream-2);border:3px solid var(--ink);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transform:rotate(-10deg);position:relative;z-index:1;
+    filter:grayscale(1);opacity:.55;transition:filter .5s,opacity .5s,background .5s;
+  }
+  .reward.unlocked .reward-stamp{
+    filter:none;opacity:1;background:var(--yellow);
+    box-shadow:5px 5px 0 var(--ink);
+    animation:stampIn .6s cubic-bezier(.22,2,.4,1);
+  }
+  @keyframes stampIn{0%{transform:scale(.4) rotate(-40deg)}70%{transform:scale(1.15) rotate(-6deg)}100%{transform:scale(1) rotate(-10deg)}}
+  .reward-stamp .big{font-family:var(--serif);font-size:36px;font-weight:700;font-style:italic;color:var(--ink);line-height:1}
+  .reward-stamp .small{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-top:4px;text-align:center;line-height:1.3}
+  .reward h2{font-family:var(--serif);font-weight:600;font-size:24px;margin-bottom:8px;position:relative;z-index:1}
+  .reward h2 em{font-style:italic;color:var(--yellow)}
+  .reward p{font-size:14px;color:rgba(250,246,236,.85);max-width:44ch;margin:0 auto;position:relative;z-index:1}
+  .reward .locked-note{
+    display:inline-block;margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--yellow);position:relative;z-index:1;
+  }
+
+  /* confetti canvas */
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+
+  .mock-note{
+    position:relative;z-index:1;margin-top:36px;text-align:center;
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mid);
+  }
+
+  @media (max-width:480px){
+    .wrap{padding:24px 14px 60px}
+    .roadmap{padding-left:6px}
+    .roadmap::before{left:19px}
+    .step{gap:12px}
+    .step-card{padding:15px 16px}
+    .progress-pct{font-size:32px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important}
+  }
+</style>
+
+<canvas id="confetti"></canvas>
+
+<div class="wrap">
+  <span class="bg-q q1" aria-hidden="true">?</span>
+  <span class="bg-q q2" aria-hidden="true">?</span>
+
+  <header>
+    <div class="brandline">
+      <div class="logo-mark">?</div>
+      <div class="brand-name"><em>Lesko</em>Help</div>
+    </div>
+    <div class="eyebrow">Your Grant Roadmap</div>
+    <h1>Every step you check brings you <em>closer</em> to <span class="hl">free money.</span></h1>
+    <p class="intro">Lorem ipsum dolor sit amet — a short welcome line explaining how this roadmap works and encouraging members to start at the top. Check things off as you go; your progress is saved.</p>
+  </header>
+
+  <!-- PROGRESS -->
+  <div class="progress-card">
+    <div class="progress-top">
+      <div>
+        <div class="progress-label">Your progress</div>
+        <div class="progress-pct"><span id="pct">0</span><sub>%</sub></div>
+      </div>
+      <div class="progress-count"><strong id="doneCount">0</strong> of <span id="totalCount">11</span> steps done</div>
+    </div>
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barEl">
+      <div class="bar-fill" id="barFill"></div>
+    </div>
+    <div class="milestones" aria-hidden="true">
+      <span class="milestone s-spade" data-at="1">♠</span>
+      <span class="milestone s-heart" data-at="25">♥</span>
+      <span class="milestone s-diamond" data-at="50">♦</span>
+      <span class="milestone s-club" data-at="75">♣</span>
+      <span class="milestone s-spade" data-at="100">★</span>
+    </div>
+    <div class="cheer" id="cheer">Ready when you are — check off your first step! 🃏</div>
+  </div>
+
+  <!-- START HERE -->
+  <div class="section-head">
+    <div class="section-suit" style="background:var(--yellow)">♠</div>
+    <h2>Start here</h2>
+    <span class="count-chip" id="chipOnboard">0/4</span>
+  </div>
+  <div class="onboard" id="onboardList">
+    <div class="mini-item" data-id="ob-profile">
+      <button class="check" aria-label="Mark: Complete your profile">✓</button>
+      <span class="txt"><span class="label">Complete your profile</span><span class="sub">Lorem ipsum — add a photo and tell us who you are.</span><a class="mini-link" href="#" onclick="return false">▶ Watch how →</a></span>
+    </div>
+    <div class="mini-item" data-id="ob-notifications">
+      <button class="check" aria-label="Mark: Adjust your notifications">✓</button>
+      <span class="txt"><span class="label">Adjust your notifications</span><span class="sub">Lorem ipsum — so you never miss a live call.</span><a class="mini-link" href="#" onclick="return false">▶ Watch how →</a></span>
+    </div>
+    <div class="mini-item" data-id="ob-app">
+      <button class="check" aria-label="Mark: Download the app">✓</button>
+      <span class="txt"><span class="label">Download the app</span><span class="sub">Lorem ipsum — take the community with you.</span><a class="mini-link" href="#" onclick="return false">▶ Watch how →</a></span>
+      <span class="badge-important">Super important</span>
+    </div>
+    <div class="mini-item" data-id="ob-video">
+      <button class="check" aria-label="Mark: Watch Matthew's welcome video">✓</button>
+      <span class="txt"><span class="label">Watch Matthew's welcome video</span><span class="sub">Lorem ipsum — 3 minutes with the man in the yellow suit.</span><a class="mini-link" href="#" onclick="return false">▶ Watch video →</a></span>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="section-head">
+    <div class="section-suit" style="background:var(--red);color:#fff">♥</div>
+    <h2>The roadmap</h2>
+    <span class="count-chip" id="chipSteps">0/7</span>
+  </div>
+
+  <div class="roadmap" id="stepList">
+
+    <div class="step" data-id="step-1">
+      <div class="step-check-col"><button class="check" aria-label="Mark step 1 done">✓</button></div>
+      <div class="step-card">
+        <div class="step-meta"><span class="step-num">Step 01</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
+        <h3>Roadmap Overview</h3>
+        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. A short description of what this step is about and why it matters.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
+          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
+        </div>
+        <div class="note-area">
+          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
+          <div class="note-hint">Saved automatically</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-id="step-2">
+      <div class="step-check-col"><button class="check" aria-label="Mark step 2 done">✓</button></div>
+      <div class="step-card">
+        <div class="step-meta"><span class="step-num">Step 02</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
+        <h3>Join a Welcome Call</h3>
+        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
+          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
+        </div>
+        <div class="note-area">
+          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
+          <div class="note-hint">Saved automatically</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-id="step-3">
+      <div class="step-check-col"><button class="check" aria-label="Mark step 3 done">✓</button></div>
+      <div class="step-card">
+        <div class="step-meta"><span class="step-num">Step 03</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
+        <h3>Ask a Question</h3>
+        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
+          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
+        </div>
+        <div class="note-area">
+          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
+          <div class="note-hint">Saved automatically</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-id="step-4">
+      <div class="step-check-col"><button class="check" aria-label="Mark step 4 done">✓</button></div>
+      <div class="step-card">
+        <div class="step-meta"><span class="step-num">Step 04</span><span class="suit" style="color:var(--green)">♣</span><span class="done-chip">✓ Done</span></div>
+        <h3>Create Your Call Sheet</h3>
+        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
+          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
+        </div>
+        <div class="note-area">
+          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
+          <div class="note-hint">Saved automatically</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-id="step-5">
+      <div class="step-check-col"><button class="check" aria-label="Mark step 5 done">✓</button></div>
+      <div class="step-card">
+        <div class="step-meta"><span class="step-num">Step 05</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
+        <h3>Call &amp; Application Instructions</h3>
+        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
+          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
+        </div>
+        <div class="note-area">
+          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
+          <div class="note-hint">Saved automatically</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-id="step-6">
+      <div class="step-check-col"><button class="check" aria-label="Mark step 6 done">✓</button></div>
+      <div class="step-card">
+        <div class="step-meta"><span class="step-num">Step 06</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
+        <h3>Join a Coaching Call</h3>
+        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sunt in culpa qui officia deserunt mollit anim.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
+          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
+        </div>
+        <div class="note-area">
+          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
+          <div class="note-hint">Saved automatically</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-id="step-7">
+      <div class="step-check-col"><button class="check" aria-label="Mark step 7 done">✓</button></div>
+      <div class="step-card">
+        <div class="step-meta"><span class="step-num">Step 07</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
+        <h3>Keep Going Tips</h3>
+        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
+          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
+        </div>
+        <div class="note-area">
+          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
+          <div class="note-hint">Saved automatically</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- REWARD -->
+  <div class="reward" id="rewardCard">
+    <div class="reward-stamp">
+      <div class="big">?</div>
+      <div class="small">Roadmap<br>Champion</div>
+    </div>
+    <h2 id="rewardTitle">Finish every step to unlock <em>your reward</em></h2>
+    <p id="rewardText">Lorem ipsum — here we describe the reward waiting at the end. A badge, a shout-out on a live call, a special giveaway entry… whatever you decide!</p>
+    <span class="locked-note" id="rewardLock">🔒 Locked — <span id="stepsLeft">11</span> steps to go</span>
+  </div>
+
+  <p class="mock-note">Mock-up · dummy text &amp; links · progress saved in this browser</p>
+</div>
+
+<script>
+(function(){
+  const KEY='lesko-roadmap-mock';
+  const state=JSON.parse(localStorage.getItem(KEY)||'{"checked":{},"notes":{}}');
+  const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
+
+  const items=[...document.querySelectorAll('[data-id]')];
+  const total=items.length;
+  document.getElementById('totalCount').textContent=total;
+
+  const cheers=[
+    [0,'Ready when you are — check off your first step! 🃏'],
+    [1,'Great start! Keep the momentum going.'],
+    [25,'A quarter of the way — you’re doing this!'],
+    [50,'Halfway there. Matthew would be proud. 💛'],
+    [75,'So close! The reward is almost yours…'],
+    [100,'YOU DID IT! 🎉 Roadmap complete!']
+  ];
+
+  function update(animate){
+    let done=0, obDone=0, stDone=0;
+    items.forEach(el=>{
+      const id=el.dataset.id, on=!!state.checked[id];
+      el.classList.toggle('done',on);
+      el.querySelector('.check').classList.toggle('on',on);
+      if(on){done++; id.startsWith('ob-')?obDone++:stDone++;}
+    });
+    const pct=Math.round(done/total*100);
+    document.getElementById('pct').textContent=pct;
+    document.getElementById('doneCount').textContent=done;
+    document.getElementById('barFill').style.width=pct+'%';
+    document.getElementById('barEl').setAttribute('aria-valuenow',pct);
+    document.getElementById('chipOnboard').textContent=obDone+'/4';
+    document.getElementById('chipSteps').textContent=stDone+'/7';
+    document.querySelectorAll('.milestone').forEach(m=>{
+      m.classList.toggle('lit',pct>=+m.dataset.at);
+    });
+    let msg=cheers[0][1];
+    cheers.forEach(([at,txt])=>{ if(pct>=at) msg=txt; });
+    if(done===0) msg=cheers[0][1];
+    document.getElementById('cheer').textContent=msg;
+
+    const reward=document.getElementById('rewardCard');
+    const left=total-done;
+    if(pct===100){
+      if(!reward.classList.contains('unlocked')){
+        reward.classList.add('unlocked');
+        document.getElementById('rewardTitle').innerHTML='🎉 Reward unlocked — <em>you’re a Roadmap Champion!</em>';
+        document.getElementById('rewardLock').textContent='★ Unlocked ★';
+        document.querySelector('.reward-stamp .big').textContent='★';
+        if(animate) confettiBurst();
+      }
+    } else {
+      reward.classList.remove('unlocked');
+      document.getElementById('rewardTitle').innerHTML='Finish every step to unlock <em>your reward</em>';
+      document.getElementById('rewardLock').innerHTML='🔒 Locked — <span>'+left+'</span> step'+(left===1?'':'s')+' to go';
+      document.querySelector('.reward-stamp .big').textContent='?';
+    }
+  }
+
+  items.forEach(el=>{
+    const id=el.dataset.id;
+    const check=el.querySelector('.check');
+    check.addEventListener('click',e=>{
+      e.stopPropagation();
+      state.checked[id]=!state.checked[id];
+      if(!state.checked[id]) delete state.checked[id];
+      save(); update(true);
+    });
+    if(el.classList.contains('mini-item')){
+      el.addEventListener('click',e=>{
+        if(e.target.closest('.check')||e.target.closest('.mini-link'))return;
+        check.click();
+      });
+    }
+    const noteBtn=el.querySelector('.btn-note');
+    const noteArea=el.querySelector('.note-area');
+    if(noteBtn&&noteArea){
+      const ta=noteArea.querySelector('textarea');
+      ta.value=state.notes[id]||'';
+      noteBtn.classList.toggle('has-note',!!state.notes[id]);
+      noteBtn.addEventListener('click',()=>noteArea.classList.toggle('open'));
+      ta.addEventListener('input',()=>{
+        state.notes[id]=ta.value;
+        if(!ta.value) delete state.notes[id];
+        noteBtn.classList.toggle('has-note',!!ta.value);
+        save();
+      });
+    }
+  });
+
+  /* confetti */
+  const cv=document.getElementById('confetti'),cx=cv.getContext('2d');
+  let parts=[],raf=null;
+  function resize(){cv.width=innerWidth;cv.height=innerHeight}
+  addEventListener('resize',resize);resize();
+  function confettiBurst(){
+    const colors=['#fdc830','#e63946','#2c3fa0','#4fa84f','#faf6ec'];
+    for(let i=0;i<160;i++){
+      parts.push({
+        x:cv.width/2+(Math.random()-.5)*200, y:cv.height*0.35,
+        vx:(Math.random()-.5)*14, vy:-Math.random()*13-3,
+        s:Math.random()*7+4, r:Math.random()*Math.PI,
+        vr:(Math.random()-.5)*.3, c:colors[Math.floor(Math.random()*colors.length)],
+        life:1
+      });
+    }
+    if(!raf) tick();
+  }
+  function tick(){
+    cx.clearRect(0,0,cv.width,cv.height);
+    parts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.vy+=.35; p.r+=p.vr; p.life-=.006;
+      cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);
+      cx.globalAlpha=Math.max(p.life,0);
+      cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);
+      cx.restore();
+    });
+    parts=parts.filter(p=>p.life>0&&p.y<cv.height+40);
+    if(parts.length){raf=requestAnimationFrame(tick)}else{raf=null;cx.clearRect(0,0,cv.width,cv.height)}
+  }
+
+  update(false);
+})();
+</script>
