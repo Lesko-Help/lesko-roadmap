@@ -76,7 +76,7 @@
   }
   .bar-fill{
     height:100%;width:0%;border-radius:100px;
-    background:repeating-linear-gradient(-45deg,var(--green) 0 10px,var(--green-deep) 10px 20px);
+    background:repeating-linear-gradient(-45deg,var(--green) 0 10px,var(--yellow) 10px 20px);
     transition:width .6s cubic-bezier(.22,1,.36,1);
   }
   .milestones{display:flex;justify-content:space-between;margin-top:10px;padding:0 2px}
@@ -103,6 +103,11 @@
     box-shadow:3px 3px 0 var(--ink);
   }
   .section-head h2{font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:-.01em}
+  .when-chip{
+    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--ink);color:var(--yellow);border-radius:100px;padding:4px 11px;
+    white-space:nowrap;transform:rotate(-2deg);
+  }
   .section-head .count-chip{
     margin-left:auto;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;
     background:var(--cream);border:1.5px solid var(--ink);border-radius:100px;padding:4px 10px;
@@ -168,8 +173,21 @@
   .step:nth-child(odd) .step-card{transform:rotate(.35deg)}
   .step:nth-child(even) .step-card{transform:rotate(-.35deg)}
   .step-card:hover{transform:rotate(0) translateY(-2px);box-shadow:6px 6px 0 var(--ink)}
-  .step.done .step-card{background:#f2f8f0;border-color:var(--green-deep);box-shadow:4px 4px 0 var(--green-deep)}
-  .step-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+  .step-card.c-blue{background:#e6ebf6}
+  .step-card.c-red{background:#fbe6e8}
+  .step-card.c-yellow{background:#fff5d6}
+  .step-card.c-green{background:#e0f2e6}
+  .c-blue .step-num{color:var(--blue)}
+  .c-red .step-num{color:var(--red)}
+  .c-yellow .step-num{color:var(--yellow-warm)}
+  .c-green .step-num{color:var(--green-deep)}
+  .step.done .step-card{background:#f2f8f0;border-color:var(--green-deep);box-shadow:3px 3px 0 var(--green-deep);transform:rotate(0) scale(.97);transform-origin:left center;padding:12px 18px}
+  .step.done .step-desc,.step.done .step-actions{display:none}
+  .step.done .step-card h3{margin-bottom:0;font-size:16px}
+  .step.done .step-meta{margin-bottom:2px}
+  .step.done .step-meta .suit{font-size:20px}
+  .step-meta{display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+  .step-meta .suit{font-size:28px;line-height:1}
   .step-num{
     font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
     color:var(--red);
@@ -236,6 +254,9 @@
     animation:stampIn .6s cubic-bezier(.22,2,.4,1);
   }
   @keyframes stampIn{0%{transform:scale(.4) rotate(-40deg)}70%{transform:scale(1.15) rotate(-6deg)}100%{transform:scale(1) rotate(-10deg)}}
+  .reward-stamp{overflow:hidden}
+  .reward-stamp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .reward-stamp.has-photo .big,.reward-stamp.has-photo .small{display:none}
   .reward-stamp .big{font-family:var(--serif);font-size:36px;font-weight:700;font-style:italic;color:var(--ink);line-height:1}
   .reward-stamp .small{font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-top:4px;text-align:center;line-height:1.3}
   .reward h2{font-family:var(--serif);font-weight:600;font-size:24px;margin-bottom:8px;position:relative;z-index:1}
@@ -280,7 +301,7 @@
     </div>
     <div class="eyebrow">Your Grant Roadmap</div>
     <h1>Every step you check brings you <em>closer</em> to <span class="hl">free money.</span></h1>
-    <p class="intro">Lorem ipsum dolor sit amet — a short welcome line explaining how this roadmap works and encouraging members to start at the top. Check things off as you go; your progress is saved.</p>
+    <p class="intro">Welcome! This roadmap shows you the way, step by step. Here's a secret: members who finish their full onboarding have up to <strong>90% more chance</strong> of finding a grant. <strong>Start Here</strong> can be done today. After that, just do one step a day — in about one week, you're through the whole roadmap. Easy does it. We're with you the whole way. 💛</p>
   </header>
 
   <!-- PROGRESS -->
@@ -290,7 +311,7 @@
         <div class="progress-label">Your progress</div>
         <div class="progress-pct"><span id="pct">0</span><sub>%</sub></div>
       </div>
-      <div class="progress-count"><strong id="doneCount">0</strong> of <span id="totalCount">11</span> steps done</div>
+      <div class="progress-count"><strong id="doneCount">0</strong> of <span id="totalCount">12</span> steps done</div>
     </div>
     <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barEl">
       <div class="bar-fill" id="barFill"></div>
@@ -309,25 +330,30 @@
   <div class="section-head">
     <div class="section-suit" style="background:var(--yellow)">♠</div>
     <h2>Start here</h2>
-    <span class="count-chip" id="chipOnboard">0/4</span>
+    <span class="when-chip">Do this today</span>
+    <span class="count-chip" id="chipOnboard">0/5</span>
   </div>
   <div class="onboard" id="onboardList">
+    <div class="mini-item" data-id="ob-video">
+      <button class="check" aria-label="Mark: Watch the welcome video">✓</button>
+      <span class="txt"><span class="label">Watch the welcome video</span><span class="sub">Matthew tells you how it all works. The best first step!</span><a class="mini-link" href="https://lesko-help-2.mn.co/spaces/16658262/page" target="_blank" rel="noopener">▶ Watch video →</a></span>
+    </div>
+    <div class="mini-item" data-id="ob-tour">
+      <button class="check" aria-label="Mark: Take a quick tour of the community">✓</button>
+      <span class="txt"><span class="label">Take a quick tour of the community</span><span class="sub">A friendly look around your new home.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-take-a-quick-tour-of-the-community" target="_blank" rel="noopener">▶ Take the tour →</a></span>
+    </div>
     <div class="mini-item" data-id="ob-profile">
       <button class="check" aria-label="Mark: Complete your profile">✓</button>
-      <span class="txt"><span class="label">Complete your profile</span><span class="sub">Lorem ipsum — add a photo and tell us who you are.</span><a class="mini-link" href="#" onclick="return false">▶ Watch how →</a></span>
+      <span class="txt"><span class="label">Complete your profile</span><span class="sub">Add your photo and tell us who you are.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-complete-your-profile" target="_blank" rel="noopener">▶ Watch how →</a></span>
     </div>
     <div class="mini-item" data-id="ob-notifications">
       <button class="check" aria-label="Mark: Adjust your notifications">✓</button>
-      <span class="txt"><span class="label">Adjust your notifications</span><span class="sub">Lorem ipsum — so you never miss a live call.</span><a class="mini-link" href="#" onclick="return false">▶ Watch how →</a></span>
+      <span class="txt"><span class="label">Adjust your notifications</span><span class="sub">So you never miss a live call.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-adjust-your-notifications-settings" target="_blank" rel="noopener">▶ Watch how →</a></span>
     </div>
     <div class="mini-item" data-id="ob-app">
       <button class="check" aria-label="Mark: Download the app">✓</button>
-      <span class="txt"><span class="label">Download the app</span><span class="sub">Lorem ipsum — take the community with you.</span><a class="mini-link" href="#" onclick="return false">▶ Watch how →</a></span>
+      <span class="txt"><span class="label">Download the app</span><span class="sub">Take LeskoHelp with you, everywhere you go.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-download-the-app" target="_blank" rel="noopener">▶ Watch how →</a></span>
       <span class="badge-important">Super important</span>
-    </div>
-    <div class="mini-item" data-id="ob-video">
-      <button class="check" aria-label="Mark: Watch Matthew's welcome video">✓</button>
-      <span class="txt"><span class="label">Watch Matthew's welcome video</span><span class="sub">Lorem ipsum — 3 minutes with the man in the yellow suit.</span><a class="mini-link" href="#" onclick="return false">▶ Watch video →</a></span>
     </div>
   </div>
 
@@ -335,126 +361,92 @@
   <div class="section-head">
     <div class="section-suit" style="background:var(--red);color:#fff">♥</div>
     <h2>The roadmap</h2>
+    <span class="when-chip">Do this this week</span>
     <span class="count-chip" id="chipSteps">0/7</span>
   </div>
 
   <div class="roadmap" id="stepList">
 
     <div class="step" data-id="step-1">
-      <div class="step-check-col"><button class="check" aria-label="Mark step 1 done">✓</button></div>
-      <div class="step-card">
-        <div class="step-meta"><span class="step-num">Step 01</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
-        <h3>Roadmap Overview</h3>
-        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. A short description of what this step is about and why it matters.</p>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 1 done">✓</button></div>
+      <div class="step-card c-blue">
+        <div class="step-meta"><span class="step-num">Day 1</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
+        <h3>Roadmap Planning</h3>
+        <p class="step-desc">Make time for one big step towards your first grant each day. Download your planning sheet, pick your week, and get started with good intentions today.</p>
         <div class="step-actions">
-          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
-          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
-        </div>
-        <div class="note-area">
-          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
-          <div class="note-hint">Saved automatically</div>
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24365840/page" target="_blank" rel="noopener">Download my sheet →</a>
         </div>
       </div>
     </div>
 
     <div class="step" data-id="step-2">
-      <div class="step-check-col"><button class="check" aria-label="Mark step 2 done">✓</button></div>
-      <div class="step-card">
-        <div class="step-meta"><span class="step-num">Step 02</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 2 done">✓</button></div>
+      <div class="step-card c-red">
+        <div class="step-meta"><span class="step-num">Day 2</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
         <h3>Join a Welcome Call</h3>
-        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.</p>
+        <p class="step-desc">Come say hello! We show you how everything works, answer your questions, and guide you on your way.</p>
         <div class="step-actions">
-          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
-          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
-        </div>
-        <div class="note-area">
-          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
-          <div class="note-hint">Saved automatically</div>
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Claim my seat →</a>
         </div>
       </div>
     </div>
 
     <div class="step" data-id="step-3">
-      <div class="step-check-col"><button class="check" aria-label="Mark step 3 done">✓</button></div>
-      <div class="step-card">
-        <div class="step-meta"><span class="step-num">Step 03</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 3 done">✓</button></div>
+      <div class="step-card c-yellow">
+        <div class="step-meta"><span class="step-num">Day 3</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
         <h3>Ask a Question</h3>
-        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+        <p class="step-desc">Learn how to ask questions in the community and get answers from our expert grant coaches. There are no silly questions here — asking is how you win.</p>
         <div class="step-actions">
-          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
-          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
-        </div>
-        <div class="note-area">
-          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
-          <div class="note-hint">Saved automatically</div>
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Ask a question →</a>
         </div>
       </div>
     </div>
 
     <div class="step" data-id="step-4">
-      <div class="step-check-col"><button class="check" aria-label="Mark step 4 done">✓</button></div>
-      <div class="step-card">
-        <div class="step-meta"><span class="step-num">Step 04</span><span class="suit" style="color:var(--green)">♣</span><span class="done-chip">✓ Done</span></div>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 4 done">✓</button></div>
+      <div class="step-card c-green">
+        <div class="step-meta"><span class="step-num">Day 4</span><span class="suit" style="color:var(--green)">♣</span><span class="done-chip">✓ Done</span></div>
         <h3>Create Your Call Sheet</h3>
-        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate.</p>
+        <p class="step-desc">Make your personal list of grants. This is your treasure map — it shows exactly where to look and where to start. Join a call, use our AI, or download one of our ready-made call sheets.</p>
         <div class="step-actions">
-          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
-          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
-        </div>
-        <div class="note-area">
-          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
-          <div class="note-hint">Saved automatically</div>
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/23670974/page" target="_blank" rel="noopener">Get my sheet →</a>
         </div>
       </div>
     </div>
 
     <div class="step" data-id="step-5">
-      <div class="step-check-col"><button class="check" aria-label="Mark step 5 done">✓</button></div>
-      <div class="step-card">
-        <div class="step-meta"><span class="step-num">Step 05</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
-        <h3>Call &amp; Application Instructions</h3>
-        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident.</p>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 5 done">✓</button></div>
+      <div class="step-card c-blue">
+        <div class="step-meta"><span class="step-num">Day 5</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
+        <h3>Call & Application Instructions</h3>
+        <p class="step-desc">Now you know where to go! We explain how to make your first call and how to send applications — we walk you through it, step by step.</p>
         <div class="step-actions">
-          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
-          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
-        </div>
-        <div class="note-area">
-          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
-          <div class="note-hint">Saved automatically</div>
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366189/page" target="_blank" rel="noopener">Go to Grant Basics →</a>
         </div>
       </div>
     </div>
 
     <div class="step" data-id="step-6">
-      <div class="step-check-col"><button class="check" aria-label="Mark step 6 done">✓</button></div>
-      <div class="step-card">
-        <div class="step-meta"><span class="step-num">Step 06</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 6 done">✓</button></div>
+      <div class="step-card c-red">
+        <div class="step-meta"><span class="step-num">Day 6</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
         <h3>Join a Coaching Call</h3>
-        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sunt in culpa qui officia deserunt mollit anim.</p>
+        <p class="step-desc">You have your call sheet and you know how to start — now questions will come. That's what our group coaching calls are for: answers, motivation, best practices, and real help to get your grant. Join as many as you can!</p>
         <div class="step-actions">
-          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
-          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
-        </div>
-        <div class="note-area">
-          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
-          <div class="note-hint">Saved automatically</div>
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/7159013/events" target="_blank" rel="noopener">Save my seat →</a>
         </div>
       </div>
     </div>
 
     <div class="step" data-id="step-7">
-      <div class="step-check-col"><button class="check" aria-label="Mark step 7 done">✓</button></div>
-      <div class="step-card">
-        <div class="step-meta"><span class="step-num">Step 07</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 7 done">✓</button></div>
+      <div class="step-card c-yellow">
+        <div class="step-meta"><span class="step-num">Day 7</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
         <h3>Keep Going Tips</h3>
-        <p class="step-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error.</p>
+        <p class="step-desc">Got your first grant, or on your way to one? There is always room to grow. Join our expert webinars and keep-going tips.</p>
         <div class="step-actions">
-          <a class="btn-go" href="#" onclick="return false">Open this step →</a>
-          <button class="btn-note">＋ Add a note<span class="dot"></span></button>
-        </div>
-        <div class="note-area">
-          <textarea placeholder="Write down anything you want to remember about this step…"></textarea>
-          <div class="note-hint">Saved automatically</div>
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366306/content" target="_blank" rel="noopener">Yes, I want to keep growing →</a>
         </div>
       </div>
     </div>
@@ -463,13 +455,14 @@
 
   <!-- REWARD -->
   <div class="reward" id="rewardCard">
-    <div class="reward-stamp">
+    <div class="reward-stamp" style="position:relative">
+      <img id="stampImg" alt="Matthew Lesko" src="matthew.jpg" onerror="this.style.display='none'" onload="this.parentElement.classList.add('has-photo')">
       <div class="big">?</div>
       <div class="small">Roadmap<br>Champion</div>
     </div>
     <h2 id="rewardTitle">Finish every step to unlock <em>your reward</em></h2>
     <p id="rewardText">Lorem ipsum — here we describe the reward waiting at the end. A badge, a shout-out on a live call, a special giveaway entry… whatever you decide!</p>
-    <span class="locked-note" id="rewardLock">🔒 Locked — <span id="stepsLeft">11</span> steps to go</span>
+    <span class="locked-note" id="rewardLock">🔒 Locked — <span id="stepsLeft">12</span> steps to go</span>
   </div>
 
   <p class="mock-note">Mock-up · dummy text &amp; links · progress saved in this browser</p>
@@ -507,7 +500,7 @@
     document.getElementById('doneCount').textContent=done;
     document.getElementById('barFill').style.width=pct+'%';
     document.getElementById('barEl').setAttribute('aria-valuenow',pct);
-    document.getElementById('chipOnboard').textContent=obDone+'/4';
+    document.getElementById('chipOnboard').textContent=obDone+'/5';
     document.getElementById('chipSteps').textContent=stDone+'/7';
     document.querySelectorAll('.milestone').forEach(m=>{
       m.classList.toggle('lit',pct>=+m.dataset.at);
