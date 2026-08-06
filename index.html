@@ -241,6 +241,7 @@
     content:'?';position:absolute;font-family:var(--serif);font-style:italic;font-weight:700;
     font-size:220px;color:rgba(250,246,236,.08);top:-50px;left:-20px;line-height:1;
   }
+  .reward.unlocked::before{content:'★';font-style:normal;font-size:200px;top:-30px}
   .reward-stamp{
     width:110px;height:110px;margin:0 auto 16px;border-radius:50%;
     background:var(--cream-2);border:3px solid var(--ink);
@@ -458,10 +459,10 @@
     <div class="reward-stamp" style="position:relative">
       <img id="stampImg" alt="Matthew Lesko" src="matthew.jpg" onerror="this.style.display='none'" onload="this.parentElement.classList.add('has-photo')">
       <div class="big">?</div>
-      <div class="small">Roadmap<br>Champion</div>
+      <div class="small">Grant<br>Searcher</div>
     </div>
-    <h2 id="rewardTitle">Finish every step to unlock <em>your reward</em></h2>
-    <p id="rewardText">Lorem ipsum — here we describe the reward waiting at the end. A badge, a shout-out on a live call, a special giveaway entry… whatever you decide!</p>
+    <h2 id="rewardTitle">Finish every step to earn <em>your first badge</em></h2>
+    <p id="rewardText">Work your way through the roadmap and you’ll unlock your very first Let’s Go Help badge — proof that you know how to find the free money that’s out there.</p>
     <span class="locked-note" id="rewardLock">🔒 Locked — <span id="stepsLeft">12</span> steps to go</span>
   </div>
 
@@ -483,7 +484,7 @@
     [1,'Great start! Keep the momentum going.'],
     [25,'A quarter of the way — you’re doing this!'],
     [50,'Halfway there. Matthew would be proud. 💛'],
-    [75,'So close! The reward is almost yours…'],
+    [75,'So close! Your badge is almost yours…'],
     [100,'YOU DID IT! 🎉 Roadmap complete!']
   ];
 
@@ -515,14 +516,16 @@
     if(pct===100){
       if(!reward.classList.contains('unlocked')){
         reward.classList.add('unlocked');
-        document.getElementById('rewardTitle').innerHTML='🎉 Reward unlocked — <em>you’re a Roadmap Champion!</em>';
-        document.getElementById('rewardLock').textContent='★ Unlocked ★';
+        document.getElementById('rewardTitle').innerHTML='🎉 Congratulations — <em>you’ve unlocked your first badge!</em>';
+        document.getElementById('rewardText').innerHTML='You made it through every single step of the roadmap. You’re now ready to become a full pro grant searcher — go get the free money that’s waiting for you. 💛';
+        document.getElementById('rewardLock').textContent='★ Badge earned ★';
         document.querySelector('.reward-stamp .big').textContent='★';
         if(animate) confettiBurst();
       }
     } else {
       reward.classList.remove('unlocked');
-      document.getElementById('rewardTitle').innerHTML='Finish every step to unlock <em>your reward</em>';
+      document.getElementById('rewardTitle').innerHTML='Finish every step to earn <em>your first badge</em>';
+      document.getElementById('rewardText').innerHTML='Work your way through the roadmap and you’ll unlock your very first Let’s Go Help badge — proof that you know how to find the free money that’s out there.';
       document.getElementById('rewardLock').innerHTML='🔒 Locked — <span>'+left+'</span> step'+(left===1?'':'s')+' to go';
       document.querySelector('.reward-stamp .big').textContent='?';
     }
