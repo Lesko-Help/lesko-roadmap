@@ -118,6 +118,10 @@
   /* collapsible section header */
   .sec-toggle{cursor:pointer;-webkit-tap-highlight-color:transparent}
   .sec-toggle:focus-visible{outline:3px solid var(--blue);outline-offset:5px;border-radius:6px}
+  .sec-fold{
+    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;
+    color:var(--ink-mid);flex-shrink:0;
+  }
   .sec-chevron{
     font-size:13px;color:var(--ink-mid);flex-shrink:0;transition:transform .25s;
     display:inline-block;line-height:1;
@@ -216,23 +220,32 @@
   .step.done h3{color:var(--ink-mid)}
   .step-desc{font-size:13.5px;color:var(--ink-mid);margin-bottom:14px;max-width:56ch}
 
-  /* "three ways" panel inside a step card */
-  .ways{
-    background:rgba(255,255,255,.72);border:1.5px dashed var(--ink);border-radius:8px;
-    padding:12px 14px 12px 14px;margin:0 0 14px;max-width:56ch;
+  /* ── GREEN NOTE CARD (sits between steps, not a step itself) ── */
+  .note-card{
+    position:relative;z-index:1;margin:0 0 22px 46px;
+    background:var(--green);border:2px solid var(--ink);border-radius:10px;
+    box-shadow:5px 5px 0 var(--ink);padding:18px 20px 17px;
+    transform:rotate(-.7deg);color:var(--paper);
   }
-  .ways-title{
-    font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--ink);margin-bottom:8px;
+  .note-card-tag{
+    position:absolute;top:-11px;left:16px;
+    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    background:var(--yellow);color:var(--ink);border:1.5px solid var(--ink);border-radius:4px;
+    padding:3px 9px;transform:rotate(1.6deg);
   }
-  .ways ol{margin:0;padding-left:20px}
-  .ways li{font-size:13px;color:var(--ink-soft);margin-bottom:6px;line-height:1.5}
-  .ways li:last-child{margin-bottom:0}
-  .ways li strong{color:var(--ink);font-weight:600}
-  .ways-note{
-    font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--ink);
-    margin-top:10px;padding-top:9px;border-top:1px solid var(--line-soft);
+  .note-card h4{
+    font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:-.01em;
+    margin:6px 0 10px;color:#fff;
   }
+  .note-card ol{margin:0;padding-left:20px}
+  .note-card li{font-size:13.5px;margin-bottom:8px;line-height:1.5;color:rgba(250,246,236,.94)}
+  .note-card li:last-child{margin-bottom:0}
+  .note-card li strong{color:var(--yellow);font-weight:700}
+  .note-card-foot{
+    font-family:var(--serif);font-style:italic;font-size:14px;color:#fff;
+    margin-top:12px;padding-top:11px;border-top:1px solid rgba(250,246,236,.3);
+  }
+  @media (max-width:480px){ .note-card{margin-left:42px} }
   .step-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .btn-go{
     display:inline-flex;align-items:center;gap:6px;
@@ -363,6 +376,7 @@
     <h2>Start here</h2>
     <span class="when-chip">Do this today</span>
     <span class="count-chip" id="chipOnboard">0/5</span>
+    <span class="sec-fold" id="onboardFold">Hide</span>
     <span class="sec-chevron" aria-hidden="true">▾</span>
   </div>
   <div class="onboard" id="onboardList">
@@ -409,9 +423,19 @@
         <p class="step-desc">Make time for one big step towards your first grant each day. Download your planning sheet, pick your week, and get started with good intentions today.</p>
         <div class="step-actions">
           <a class="btn-go" href="https://drive.google.com/uc?export=download&amp;id=1phX-rT7tVcFli6bPn9GKtno0DW5vYdJT" target="_blank" rel="noopener">Download my planning sheet →</a>
-          <a class="btn-note" href="https://lesko-help-2.mn.co/spaces/24365840/page" target="_blank" rel="noopener">Open in the community</a>
         </div>
       </div>
+    </div>
+
+    <div class="note-card">
+      <span class="note-card-tag">Good to know</span>
+      <h4>Three ways to get your call sheet</h4>
+      <ol>
+        <li><strong>Go to a Call Sheet Class</strong> — one of our grant experts helps you create your call sheet, live.</li>
+        <li><strong>Make one yourself</strong> with the help of our LeskoHelp AI Researcher.</li>
+        <li><strong>Ask a question in the Questions channel</strong> — one of our team members will make a call sheet for you, or answer your question.</li>
+      </ol>
+      <p class="note-card-foot">Try out all three ways and collect one or more call sheets!</p>
     </div>
 
     <div class="step" data-id="step-4">
@@ -420,15 +444,6 @@
         <div class="step-meta"><span class="step-num">Day 2</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
         <h3>Make Your Call Sheet with the AI Researcher</h3>
         <p class="step-desc">Your call sheet is your personal list of grants. This is your treasure map — it shows exactly where to look and where to start.</p>
-        <div class="ways">
-          <div class="ways-title">Three ways to get your call sheet</div>
-          <ol>
-            <li><strong>Go to a Call Sheet Class</strong> — one of our grant experts helps you create your call sheet, live.</li>
-            <li><strong>Make one yourself</strong> with the help of our LeskoHelp AI Researcher.</li>
-            <li><strong>Ask a question in the Questions channel</strong> — one of our team members will make a call sheet for you, or answer your question.</li>
-          </ol>
-          <p class="ways-note">Try out all three ways and collect one or more call sheets!</p>
-        </div>
         <div class="step-actions">
           <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/23670974/page" target="_blank" rel="noopener">Get my call sheet →</a>
         </div>
@@ -531,6 +546,7 @@
     obList.classList.toggle('collapsed',!open);
     obHead.classList.toggle('collapsed',!open);
     obHead.setAttribute('aria-expanded',open?'true':'false');
+    document.getElementById('onboardFold').textContent=open?'Hide':'Show';
   }
   obHead.addEventListener('click',()=>setOnboard(obList.classList.contains('collapsed')));
   obHead.addEventListener('keydown',e=>{
