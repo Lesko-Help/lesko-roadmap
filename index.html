@@ -162,6 +162,7 @@
     padding:5px;flex-shrink:0;box-shadow:3px 3px 0 var(--ink);
   }
   .mini-qr img{width:100%;height:100%;object-fit:contain;display:block}
+  .mini-qr.qr-missing{display:none}
   .mini-item .txt{flex:1;min-width:0;font-size:14.5px;font-weight:500}
   .step-tag{
     display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;
@@ -468,8 +469,11 @@
 
     <div class="mini-item s3" data-id="ob-app">
       <button class="check" aria-label="Mark: Download the app">✓</button>
+      <!-- Drop the community's own QR image into the repo as qr-download-app.png
+           and it appears here. Until that file exists the slot stays hidden. -->
       <span class="mini-qr">
-        <img src="qr-download-app.png" alt="QR code to download the LeskoHelp app">
+        <img src="qr-download-app.png" alt="QR code to download the LeskoHelp app"
+             onerror="this.closest('.mini-qr').classList.add('qr-missing')">
       </span>
       <span class="txt">
         <span class="step-tag">Step 3</span>
