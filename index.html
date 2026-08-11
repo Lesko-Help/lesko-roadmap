@@ -144,6 +144,10 @@
   .mini-item:hover{background:var(--paper)}
   .mini-item .txt{flex:1;font-size:14.5px;font-weight:500}
   .mini-item .sub{display:block;font-size:12px;color:var(--ink-mid);font-weight:400;margin-top:1px}
+  .mini-list{margin:5px 0 0;padding-left:17px}
+  .mini-list li{font-size:12.5px;color:var(--ink-mid);font-weight:400;line-height:1.5;margin-bottom:1px}
+  .mini-list li strong{color:var(--ink);font-weight:600}
+  .mini-item.done .mini-list{opacity:.7}
   .mini-item.done .txt{color:var(--ink-mid)}
   .mini-item.done .txt .label{text-decoration:line-through;text-decoration-color:var(--green);text-decoration-thickness:2px}
   .mini-link{
@@ -355,7 +359,7 @@
         <div class="progress-label">Your progress</div>
         <div class="progress-pct"><span id="pct">0</span><sub>%</sub></div>
       </div>
-      <div class="progress-count"><strong id="doneCount">0</strong> of <span id="totalCount">12</span> steps done</div>
+      <div class="progress-count"><strong id="doneCount">0</strong> of <span id="totalCount">10</span> steps done</div>
     </div>
     <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barEl">
       <div class="bar-fill" id="barFill"></div>
@@ -375,30 +379,42 @@
     <div class="section-suit" style="background:var(--yellow)">♠</div>
     <h2>Start here</h2>
     <span class="when-chip">Do this today</span>
-    <span class="count-chip" id="chipOnboard">0/5</span>
+    <span class="count-chip" id="chipOnboard">0/3</span>
     <span class="sec-fold" id="onboardFold">Hide</span>
     <span class="sec-chevron" aria-hidden="true">▾</span>
   </div>
   <div class="onboard" id="onboardList">
-    <div class="mini-item" data-id="ob-video">
-      <button class="check" aria-label="Mark: Watch the welcome video">✓</button>
-      <span class="txt"><span class="label">Watch the welcome video</span><span class="sub">Matthew tells you how it all works. The best first step!</span><a class="mini-link" href="https://lesko-help-2.mn.co/spaces/16658262/page" target="_blank" rel="noopener">▶ Watch video →</a></span>
-    </div>
-    <div class="mini-item" data-id="ob-tour">
-      <button class="check" aria-label="Mark: Take a quick tour of the community">✓</button>
-      <span class="txt"><span class="label">Take a quick tour of the community</span><span class="sub">A friendly look around your new home.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-take-a-quick-tour-of-the-community" target="_blank" rel="noopener">▶ Take the tour →</a></span>
-    </div>
     <div class="mini-item" data-id="ob-profile">
       <button class="check" aria-label="Mark: Complete your profile">✓</button>
-      <span class="txt"><span class="label">Complete your profile</span><span class="sub">Add your photo and tell us who you are.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-complete-your-profile" target="_blank" rel="noopener">▶ Watch how →</a></span>
+      <span class="txt">
+        <span class="label">Complete your profile</span>
+        <ul class="mini-list">
+          <li>Add your first name and last name</li>
+          <li>Add your location and time zone</li>
+          <li>Add a photo — want to stay private? Use an avatar</li>
+          <li>Write a fun line about yourself</li>
+        </ul>
+        <a class="mini-link" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile →</a>
+      </span>
     </div>
     <div class="mini-item" data-id="ob-notifications">
       <button class="check" aria-label="Mark: Adjust your notifications">✓</button>
-      <span class="txt"><span class="label">Adjust your notifications</span><span class="sub">So you never miss a live call.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-adjust-your-notifications-settings" target="_blank" rel="noopener">▶ Watch how →</a></span>
+      <span class="txt">
+        <span class="label">Adjust your notifications</span>
+        <ul class="mini-list">
+          <li>Keep your email notifications <strong>on</strong> — daily is best</li>
+          <li>Rather switch email off? Then download the app, so we can still reach you</li>
+        </ul>
+        <a class="mini-link" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications →</a>
+      </span>
     </div>
     <div class="mini-item" data-id="ob-app">
       <button class="check" aria-label="Mark: Download the app">✓</button>
-      <span class="txt"><span class="label">Download the app</span><span class="sub">Take LeskoHelp with you, everywhere you go.</span><a class="mini-link" href="https://lesko-help-2.mn.co/posts/welcome-onboarding-download-the-app" target="_blank" rel="noopener">▶ Watch how →</a></span>
+      <span class="txt">
+        <span class="label">Download the app</span>
+        <span class="sub">Take LeskoHelp with you, everywhere you go.</span>
+        <a class="mini-link" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app →</a>
+      </span>
       <span class="badge-important">Super important</span>
     </div>
   </div>
@@ -415,10 +431,23 @@
        progress keeps pointing at the same step even after the days are reordered. -->
   <div class="roadmap" id="stepList">
 
-    <div class="step" data-id="step-1">
+    <div class="step" data-id="step-2">
       <div class="step-check-col"><button class="check" aria-label="Mark day 1 done">✓</button></div>
       <div class="step-card c-blue">
         <div class="step-meta"><span class="step-num">Day 1</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
+        <h3>Take the Community Tour</h3>
+        <p class="step-desc">See how everything works and where to find what. Join a live Welcome Tour Class — we run one every day — or watch the tour video if you would rather start right now.</p>
+        <div class="step-actions">
+          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a Welcome Tour Class →</a>
+          <a class="btn-note" href="https://lesko-help-2.mn.co/spaces/16658262/page" target="_blank" rel="noopener">▶ Watch the tour video</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-id="step-1">
+      <div class="step-check-col"><button class="check" aria-label="Mark day 2 done">✓</button></div>
+      <div class="step-card c-red">
+        <div class="step-meta"><span class="step-num">Day 2</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
         <h3>Roadmap Planning</h3>
         <p class="step-desc">Make time for one big step towards your first grant each day. Download your planning sheet, pick your week, and get started with good intentions today.</p>
         <div class="step-actions">
@@ -439,9 +468,9 @@
     </div>
 
     <div class="step" data-id="step-4">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 2 done">✓</button></div>
-      <div class="step-card c-red">
-        <div class="step-meta"><span class="step-num">Day 2</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 3 done">✓</button></div>
+      <div class="step-card c-yellow">
+        <div class="step-meta"><span class="step-num">Day 3</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
         <h3>Make Your Call Sheet with the AI Researcher</h3>
         <p class="step-desc">Your call sheet is your personal list of grants. This is your treasure map — it shows exactly where to look and where to start.</p>
         <div class="step-actions">
@@ -451,25 +480,13 @@
     </div>
 
     <div class="step" data-id="step-3">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 3 done">✓</button></div>
-      <div class="step-card c-yellow">
-        <div class="step-meta"><span class="step-num">Day 3</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
+      <div class="step-check-col"><button class="check" aria-label="Mark day 4 done">✓</button></div>
+      <div class="step-card c-green">
+        <div class="step-meta"><span class="step-num">Day 4</span><span class="suit" style="color:var(--green)">♣</span><span class="done-chip">✓ Done</span></div>
         <h3>Ask a Question in the Questions Channel</h3>
         <p class="step-desc">Learn how to ask questions in the community and get answers from our expert grant coaches. There are no silly questions here — asking is how you win.</p>
         <div class="step-actions">
           <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Ask a question →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="step" data-id="step-2">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 4 done">✓</button></div>
-      <div class="step-card c-green">
-        <div class="step-meta"><span class="step-num">Day 4</span><span class="suit" style="color:var(--green)">♣</span><span class="done-chip">✓ Done</span></div>
-        <h3>Join a Welcome Call</h3>
-        <p class="step-desc">Come say hello! We show you how everything works, answer your questions, and guide you on your way.</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Claim my seat →</a>
         </div>
       </div>
     </div>
@@ -521,7 +538,7 @@
     </div>
     <h2 id="rewardTitle">Finish every step to earn <em>your first badge</em></h2>
     <p id="rewardText">Work your way through the roadmap and you’ll unlock your very first Let’s Go Help badge — proof that you know how to find the free money that’s out there.</p>
-    <span class="locked-note" id="rewardLock">🔒 Locked — <span id="stepsLeft">12</span> steps to go</span>
+    <span class="locked-note" id="rewardLock">🔒 Locked — <span id="stepsLeft">10</span> steps to go</span>
   </div>
 
   <p class="mock-note">Your progress is saved in this browser</p>
@@ -575,12 +592,14 @@
     document.getElementById('doneCount').textContent=done;
     document.getElementById('barFill').style.width=pct+'%';
     document.getElementById('barEl').setAttribute('aria-valuenow',pct);
+    const obTotal=items.filter(el=>el.dataset.id.startsWith('ob-')).length;
     const obChip=document.getElementById('chipOnboard');
-    obChip.textContent=obDone===5?'✓ 5/5':obDone+'/5';
-    obChip.classList.toggle('complete',obDone===5);
-    document.getElementById('chipSteps').textContent=stDone+'/7';
+    const obAllDone=obDone===obTotal;
+    obChip.textContent=(obAllDone?'✓ ':'')+obDone+'/'+obTotal;
+    obChip.classList.toggle('complete',obAllDone);
+    document.getElementById('chipSteps').textContent=stDone+'/'+(total-obTotal);
 
-    if(obDone===5){
+    if(obAllDone){
       if(!obAutoFolded){ obAutoFolded=true; setOnboard(false); }
     } else if(obAutoFolded){
       obAutoFolded=false; setOnboard(true);
