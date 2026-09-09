@@ -388,6 +388,35 @@
   @media (prefers-reduced-motion:reduce){
     *{animation:none !important;transition:none !important}
   }
+
+  /* ── VIDEO POP-UP ── */
+  .vmodal{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    padding:20px;background:rgba(14,26,43,.84);
+  }
+  .vmodal.open{display:flex}
+  .vmodal-box{
+    position:relative;width:100%;max-width:880px;
+    background:var(--paper);border:2px solid var(--ink);border-radius:12px;
+    box-shadow:6px 6px 0 var(--ink);padding:14px 14px 12px;
+  }
+  .vmodal-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .vmodal-head h4{font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:-.01em}
+  .vmodal-close{
+    margin-left:auto;width:34px;height:34px;flex-shrink:0;border-radius:50%;
+    border:2px solid var(--ink);background:#fff;cursor:pointer;font-size:15px;line-height:1;
+    display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;
+  }
+  .vmodal-close:hover{background:var(--red);border-color:var(--red-deep);color:var(--paper)}
+  .vmodal-close:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .vmodal-ratio{
+    position:relative;width:100%;padding-top:56.25%;background:#000;
+    border:2px solid var(--ink);border-radius:8px;overflow:hidden;
+  }
+  .vmodal-ratio iframe,.vmodal-ratio video{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+  .vmodal-foot{margin-top:10px;font-size:12.5px;color:var(--ink-mid)}
+  .vmodal-foot a{color:var(--blue);font-weight:600}
+  @media (max-width:480px){ .vmodal{padding:12px} .vmodal-box{padding:11px} }
 </style>
 
 <canvas id="confetti"></canvas>
@@ -623,6 +652,17 @@
   <p class="mock-note">Your progress is saved in this browser</p>
 </div>
 
+<div class="vmodal" id="tourModal" role="dialog" aria-modal="true" aria-label="The welcome tour video">
+  <div class="vmodal-box">
+    <div class="vmodal-head">
+      <h4>The Welcome Tour</h4>
+      <button class="vmodal-close" id="tourClose" type="button" aria-label="Close the video">✕</button>
+    </div>
+    <div class="vmodal-ratio" id="tourFrame"></div>
+    <p class="vmodal-foot">Rather come along live? <a href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a Welcome Meetup →</a></p>
+  </div>
+</div>
+
 <script>
 (function(){
   const KEY='lesko-roadmap-mock';
@@ -774,5 +814,67 @@
   }
 
   update(false);
+
+  /* ──────────────────────────────────────────────────────────────
+     THE WELCOME TOUR VIDEO
+
+     Paste the video's link between the quotes below and the
+     "Watch the tour video" button plays it in a pop-up, right on
+     this page, instead of sending members somewhere else.
+
+     YouTube, Vimeo, Loom, Google Drive share links and direct .mp4
+     links all work.
+
+     Left empty, the button keeps opening the community page as it
+     does today — so nothing breaks while the video is still coming.
+     ────────────────────────────────────────────────────────────── */
+  const TOUR_VIDEO = '';
+
+  function tourEmbed(url){
+    let m;
+    if((m=url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/)))
+      return {tag:'iframe', src:'https://www.youtube.com/embed/'+m[1]+'?rel=0&modestbranding=1&autoplay=1'};
+    if((m=url.match(/vimeo\.com\/(?:video\/)?(\d+)/)))
+      return {tag:'iframe', src:'https://player.vimeo.com/video/'+m[1]+'?autoplay=1'};
+    if((m=url.match(/loom\.com\/(?:share|embed)\/(\w+)/)))
+      return {tag:'iframe', src:'https://www.loom.com/embed/'+m[1]};
+    if((m=url.match(/drive\.google\.com\/file\/d\/([\w-]+)/)))
+      return {tag:'iframe', src:'https://drive.google.com/file/d/'+m[1]+'/preview'};
+    if(/\.(mp4|webm|ogg|mov)(\?|$)/i.test(url)) return {tag:'video', src:url};
+    return {tag:'iframe', src:url};
+  }
+
+  (function(){
+    const url = (TOUR_VIDEO||'').trim();
+    if(!url) return;                 // no video yet — leave the button as a plain link
+    const btn = [...document.querySelectorAll('.btn-note')]
+      .find(a => /tour video/i.test(a.textContent));
+    const modal = document.getElementById('tourModal');
+    const frame = document.getElementById('tourFrame');
+    const close = document.getElementById('tourClose');
+    if(!btn || !modal || !frame || !close) return;
+
+    function openVideo(e){
+      e.preventDefault();
+      const v = tourEmbed(url);
+      frame.innerHTML = v.tag === 'video'
+        ? '<video controls autoplay playsinline src="'+v.src+'"></video>'
+        : '<iframe src="'+v.src+'" title="The welcome tour video" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      close.focus();
+    }
+    function shut(){
+      modal.classList.remove('open');
+      frame.innerHTML = '';           // stops playback
+      document.body.style.overflow = '';
+    }
+    btn.addEventListener('click', openVideo);
+    close.addEventListener('click', shut);
+    modal.addEventListener('click', e => { if(e.target === modal) shut(); });
+    addEventListener('keydown', e => {
+      if(e.key === 'Escape' && modal.classList.contains('open')) shut();
+    });
+  })();
 })();
 </script>
