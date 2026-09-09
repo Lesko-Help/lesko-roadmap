@@ -815,66 +815,82 @@
 
   update(false);
 
-  /* ──────────────────────────────────────────────────────────────
+})();
+</script>
+
+<!-- ──────────────────────────────────────────────────────────────
      THE WELCOME TOUR VIDEO
 
-     Paste the video's link between the quotes below and the
-     "Watch the tour video" button plays it in a pop-up, right on
-     this page, instead of sending members somewhere else.
+     Deliberately its own script block, separate from the roadmap's
+     main script, and it listens on the document rather than the button
+     itself. That way the pop-up keeps working even if the script above
+     hits a problem, or if the buttons get re-rendered underneath it.
 
-     YouTube, Vimeo, Loom, Google Drive share links and direct .mp4
-     links all work.
+     To change the video, edit the one line below. YouTube, Vimeo, Loom,
+     Google Drive share links and direct .mp4 links all work. Leave it
+     empty and the button simply opens the community page instead.
+     ────────────────────────────────────────────────────────────── -->
+<script>
+(function(){
+  var TOUR_VIDEO = 'https://www.loom.com/share/fa6bce0bca764039bb0868518153f584';
 
-     Left empty, the button keeps opening the community page as it
-     does today — so nothing breaks while the video is still coming.
-     ────────────────────────────────────────────────────────────── */
-  const TOUR_VIDEO = 'https://www.loom.com/share/fa6bce0bca764039bb0868518153f584';
+  var url = (TOUR_VIDEO || '').trim();
+  if(!url) return;
 
-  function tourEmbed(url){
-    let m;
-    if((m=url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/)))
+  function embedFor(u){
+    var m;
+    if((m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/)))
       return {tag:'iframe', src:'https://www.youtube.com/embed/'+m[1]+'?rel=0&modestbranding=1&autoplay=1'};
-    if((m=url.match(/vimeo\.com\/(?:video\/)?(\d+)/)))
+    if((m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/)))
       return {tag:'iframe', src:'https://player.vimeo.com/video/'+m[1]+'?autoplay=1'};
-    if((m=url.match(/loom\.com\/(?:share|embed)\/(\w+)/)))
-      return {tag:'iframe', src:'https://www.loom.com/embed/'+m[1]};
-    if((m=url.match(/drive\.google\.com\/file\/d\/([\w-]+)/)))
+    if((m = u.match(/loom\.com\/(?:share|embed)\/([\w-]+)/)))
+      return {tag:'iframe', src:'https://www.loom.com/embed/'+m[1]+'?autoplay=1'};
+    if((m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)))
       return {tag:'iframe', src:'https://drive.google.com/file/d/'+m[1]+'/preview'};
-    if(/\.(mp4|webm|ogg|mov)(\?|$)/i.test(url)) return {tag:'video', src:url};
-    return {tag:'iframe', src:url};
+    if(/\.(mp4|webm|ogg|mov)(\?|$)/i.test(u)) return {tag:'video', src:u};
+    return {tag:'iframe', src:u};
   }
 
-  (function(){
-    const url = (TOUR_VIDEO||'').trim();
-    if(!url) return;                 // no video yet — leave the button as a plain link
-    const btn = [...document.querySelectorAll('.btn-note')]
-      .find(a => /tour video/i.test(a.textContent));
-    const modal = document.getElementById('tourModal');
-    const frame = document.getElementById('tourFrame');
-    const close = document.getElementById('tourClose');
-    if(!btn || !modal || !frame || !close) return;
+  function modal(){ return document.getElementById('tourModal'); }
 
-    function openVideo(e){
-      e.preventDefault();
-      const v = tourEmbed(url);
-      frame.innerHTML = v.tag === 'video'
-        ? '<video controls autoplay playsinline src="'+v.src+'"></video>'
-        : '<iframe src="'+v.src+'" title="The welcome tour video" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>';
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      close.focus();
+  function shut(){
+    var m = modal(); if(!m) return;
+    m.classList.remove('open');
+    var f = document.getElementById('tourFrame');
+    if(f) f.innerHTML = '';                    // stops playback
+    document.body.style.overflow = '';
+  }
+
+  function open(){
+    var m = modal(), f = document.getElementById('tourFrame');
+    if(!m || !f) return false;
+    var v = embedFor(url);
+    f.innerHTML = v.tag === 'video'
+      ? '<video controls autoplay playsinline src="' + v.src + '"></video>'
+      : '<iframe src="' + v.src + '" title="The welcome tour video" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    var c = document.getElementById('tourClose');
+    if(c) c.focus();
+    return true;
+  }
+
+  /* Delegated, and captured early, so it wins even if something else
+     handles the click first. */
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    var link = t && t.closest ? t.closest('a') : null;
+    if(link && /watch the tour video/i.test(link.textContent || '')){
+      if(open()){ e.preventDefault(); e.stopPropagation(); }
+      return;
     }
-    function shut(){
-      modal.classList.remove('open');
-      frame.innerHTML = '';           // stops playback
-      document.body.style.overflow = '';
-    }
-    btn.addEventListener('click', openVideo);
-    close.addEventListener('click', shut);
-    modal.addEventListener('click', e => { if(e.target === modal) shut(); });
-    addEventListener('keydown', e => {
-      if(e.key === 'Escape' && modal.classList.contains('open')) shut();
-    });
-  })();
+    if(t && t.id === 'tourClose'){ e.preventDefault(); shut(); return; }
+    if(t && t.id === 'tourModal'){ shut(); }
+  }, true);
+
+  document.addEventListener('keydown', function(e){
+    var m = modal();
+    if(e.key === 'Escape' && m && m.classList.contains('open')) shut();
+  });
 })();
 </script>
