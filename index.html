@@ -898,6 +898,16 @@
   /* finished: strike the title, keep the card at full strength */
   .scard.done{opacity:1}
   .scard.done h4{text-decoration:line-through;text-decoration-thickness:1.5px}
+
+  /* ══ EDGE ══
+     The page is embedded, and on a light host background the paper colour
+     has nothing to sit against. A hairline gives it an edge. */
+  body{
+    border:1px solid rgba(14,26,43,.15);
+    border-radius:14px;
+    min-height:100vh;
+  }
+  @media (max-width:480px){ body{border-radius:10px} }
 </style>
 
 <canvas id="confetti"></canvas>
