@@ -691,6 +691,77 @@
     .tstep:first-child::after,.tstep:last-child::after{left:17px}
     .tstep:last-child::after{top:51px}
   }
+
+  /* ══ STEP LABELS, GREEN FINISHED STATE, SET-UP CARDS ══ */
+
+  /* "STEP 1" in the same type as "YOUR PROGRESS", a size up */
+  .tkicker{font-size:11px;letter-spacing:.15em;margin-bottom:6px}
+
+  /* a finished step: green ring on the disc, green edge on the card */
+  .tstep.done .tdot{box-shadow:0 0 0 4px rgba(79,168,79,.22)}
+  .tstep.done .tcard{border-color:rgba(79,168,79,.55)}
+
+  /* a to-do and its link belong together */
+  .todo-main{display:flex;flex-direction:column;gap:5px;min-width:0}
+  .todos .tlink{font-size:13px}
+  .todo.on .tlink{opacity:.55}
+
+  /* ── SET UP YOUR ACCOUNT ── */
+  .setup{
+    position:relative;z-index:1;margin:0 0 34px;background:#fff;
+    border:1px solid rgba(14,26,43,.13);border-radius:14px;
+    box-shadow:0 1px 2px rgba(14,26,43,.04);overflow:hidden;
+  }
+  .setup.done{background:#f6faf5;border-color:rgba(79,168,79,.55)}
+  .setup-head{
+    width:100%;display:flex;align-items:center;gap:12px;text-align:left;
+    background:none;border:0;padding:16px 18px;cursor:pointer;font:inherit;color:inherit;
+  }
+  .setup-head:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+  .setup-head-txt{flex:1;min-width:0}
+  .setup-kicker{
+    display:block;font-family:var(--mono);font-size:11px;font-weight:700;
+    letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mid);margin-bottom:6px;
+  }
+  .setup.done .setup-kicker{color:var(--green-deep)}
+  .setup-title{display:block;font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:-.01em}
+  .setup-sub{display:block;font-size:13px;color:var(--ink-mid);margin-top:4px}
+  .setup.done .setup-sub{display:none}
+  .setup-head .tchev{margin:0}
+  .setup-head[aria-expanded="false"] .tchev{transform:rotate(-90deg)}
+  .setup-body{display:block;padding:0 18px 18px}
+  .setup-body.collapsed{display:none}
+  .setup-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+    padding-top:16px;border-top:1px solid rgba(14,26,43,.09);
+  }
+  .scard{
+    position:relative;background:var(--paper);border:1px solid rgba(14,26,43,.12);
+    border-radius:12px;padding:14px 14px 15px;cursor:pointer;
+    transition:border-color .18s,background .18s;
+  }
+  .scard:hover{border-color:rgba(14,26,43,.3)}
+  .scard.done{background:#f2f8f0;border-color:rgba(79,168,79,.5)}
+  .scard-n{
+    display:flex;align-items:center;justify-content:center;
+    width:24px;height:24px;border-radius:50%;margin-bottom:9px;
+    background:rgba(14,26,43,.07);color:var(--ink-mid);
+    font-family:var(--sans);font-weight:600;font-size:12px;font-variant-numeric:tabular-nums;
+  }
+  .scard.done .scard-n{background:var(--green);color:#fff}
+  .scard h4{font-family:var(--serif);font-weight:600;font-size:15.5px;margin-bottom:5px;line-height:1.25}
+  .scard p{font-size:12.5px;color:var(--ink-mid);margin-bottom:10px;line-height:1.45}
+  .scard .tlink{font-size:12.5px}
+  .scard .check{
+    position:absolute;top:12px;right:12px;width:23px;height:23px;border-radius:7px;
+    border:1.5px solid rgba(14,26,43,.3);background:#fff;font-size:13px;
+  }
+  .scard.done .check{background:var(--green);border-color:var(--green);color:#fff}
+
+  @media (max-width:620px){
+    .setup-grid{grid-template-columns:1fr;gap:10px}
+    .scard{padding:13px}
+  }
 </style>
 
 <canvas id="confetti"></canvas>
@@ -715,72 +786,46 @@
     </div>
   </div>
 
-  <!-- SET-UP (kept collapsed so the tour is the first thing open) -->
-  <div class="section-head sec-toggle collapsed" id="onboardHead" role="button" tabindex="0" aria-expanded="false" aria-controls="onboardList">
-    <div class="section-suit" style="background:var(--yellow)">♠</div>
-    <h2>Set up your account</h2>
-    <span class="count-chip" id="chipOnboard">0/3</span>
-    <span class="sec-fold" id="onboardFold">Show</span>
-    <span class="sec-chevron" aria-hidden="true">▾</span>
-  </div>
-  <div class="onboard collapsed" id="onboardList">
-    <p class="onboard-intro">
-      <strong>Do these 3 things first</strong>
-      <span>Five minutes. Then start Step 1.</span>
-    </p>
+  <!-- SET UP YOUR ACCOUNT — one card, three cards inside, collapsible -->
+  <div class="setup" id="setupCard">
+    <button class="setup-head" id="onboardHead" type="button" aria-expanded="true" aria-controls="onboardList">
+      <span class="setup-head-txt">
+        <span class="setup-kicker">Before you start</span>
+        <span class="setup-title">Set up your account</span>
+        <span class="setup-sub">Do these 3 things first. Five minutes. Then start Step 1.</span>
+      </span>
+      <span class="count-chip" id="chipOnboard">0/3</span>
+      <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+    </button>
 
-    <div class="mini-item s1" data-id="ob-profile">
-      <button class="check" aria-label="Mark: complete your profile">✓</button>
-      <span class="txt">
-        <span class="step-kicker">Do this</span>
-        <span class="label">Complete your profile</span>
-        <ul class="mini-list">
-          <li>Add your first name and last name</li>
-          <li>Add your location and time zone</li>
-          <li>Add a photo. Want to stay private? Use an avatar</li>
-          <li>Write one line about yourself</li>
-        </ul>
-      </span>
-      <span class="mini-action">
-        <a class="mini-cta" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile →</a>
-      </span>
-    </div>
+    <div class="setup-body" id="onboardList">
+      <div class="setup-grid">
 
-    <div class="mini-item s2" data-id="ob-notifications">
-      <button class="check" aria-label="Mark: adjust your notifications">✓</button>
-      <span class="txt">
-        <span class="step-kicker">Do this</span>
-        <span class="label">Adjust your notifications</span>
-        <ul class="mini-list">
-          <li>Turn your email notifications <strong>on</strong>. Pick daily</li>
-          <li>Want email off? Then get the app, so we can still reach you</li>
-        </ul>
-      </span>
-      <span class="mini-action">
-        <a class="mini-cta" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications →</a>
-      </span>
-    </div>
+        <div class="scard" data-id="ob-profile">
+          <button class="check" aria-label="Mark: complete your profile">✓</button>
+          <span class="scard-n">1</span>
+          <h4>Complete your profile</h4>
+          <p>Add your name, your photo and your time zone.</p>
+          <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile <span class="arr" aria-hidden="true">↗</span></a>
+        </div>
 
-    <div class="mini-item s3" data-id="ob-app">
-      <button class="check" aria-label="Mark: download the app">✓</button>
-      <span class="txt">
-        <span class="step-kicker">Do this</span>
-        <span class="label">Download the app<span class="badge-important">Super important</span></span>
-        <ul class="mini-list">
-          <li>Scan the QR code with your phone camera</li>
-          <li>Download the app on your phone or iPad</li>
-          <li>Log in with the <strong>same email and password</strong></li>
-        </ul>
-      </span>
-      <span class="mini-action">
-        <!-- Drop the community's own QR image into the repo as qr-download-app.png
-             and it appears here. Until that file exists the slot stays hidden. -->
-        <span class="mini-qr">
-          <img src="qr-download-app.png" alt="QR code to download the LeskoHelp app"
-               onerror="this.closest('.mini-qr').classList.add('qr-missing')">
-        </span>
-        <a class="mini-cta" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app →</a>
-      </span>
+        <div class="scard" data-id="ob-notifications">
+          <button class="check" aria-label="Mark: turn on your notifications">✓</button>
+          <span class="scard-n">2</span>
+          <h4>Turn on notifications</h4>
+          <p>Pick daily email, so you never miss a class.</p>
+          <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications <span class="arr" aria-hidden="true">↗</span></a>
+        </div>
+
+        <div class="scard" data-id="ob-app">
+          <button class="check" aria-label="Mark: download the app">✓</button>
+          <span class="scard-n">3</span>
+          <h4>Get the app</h4>
+          <p>Log in with the same email and password.</p>
+          <a class="tlink" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app <span class="arr" aria-hidden="true">↗</span></a>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -803,7 +848,7 @@
           <span class="thead-txt">
             <span class="tkicker">Step 1</span>
             <span class="ttitle">Watch the Welcome Tour</span>
-            <span class="tsub">Start here. Press play.</span>
+            <span class="tsub">Watch the welcome video to get started and find your way around.</span>
           </span>
           <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
@@ -817,16 +862,18 @@
             <ul class="todos">
               <li class="todo" data-todo="step-2::video" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I watched the welcome tour video</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I watched the welcome tour video</span>
+                </span>
               </li>
               <li class="todo" data-todo="step-2::meetup" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I joined a Welcome Meetup</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I joined a Welcome Meetup</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a live Welcome Meetup <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
             </ul>
-            <div class="tlinks">
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a live Welcome Meetup <span class="arr" aria-hidden="true">↗</span></a>
-            </div>
           </div>
         </div>
       </div>
@@ -839,7 +886,7 @@
           <span class="thead-txt">
             <span class="tkicker">Step 2</span>
             <span class="ttitle">Join a Call Sheet Class</span>
-            <span class="tsub">Get your list of grants to call.</span>
+            <span class="tsub">Get your first list of grants to call.</span>
           </span>
           <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
@@ -849,21 +896,26 @@
             <ul class="todos">
               <li class="todo" data-todo="step-8::instructions" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I read the instruction page</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I read the instruction page</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24440881/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
               <li class="todo" data-todo="step-8::class-a" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I joined an AI Workshop class</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I joined the AI Workshop class</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24440881/events" target="_blank" rel="noopener">Book my Call Sheet Class <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
               <li class="todo" data-todo="step-8::class-b" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I joined an AI User Skills class</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I joined the AI User Skills class</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24440881/events" target="_blank" rel="noopener">Book my Call Sheet Class <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
             </ul>
-            <div class="tlinks">
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24440881/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24440881/events" target="_blank" rel="noopener">Book my Call Sheet Class <span class="arr" aria-hidden="true">↗</span></a>
-            </div>
             <div class="note-card">
               <span class="note-card-tag">Good to know</span>
               <h4>3 ways to get your call sheet</h4>
@@ -896,12 +948,12 @@
             <ul class="todos">
               <li class="todo" data-todo="step-4::sheet" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I created my first call sheet</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I created my first call sheet</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24461105/page" target="_blank" rel="noopener">Create your call sheet <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
             </ul>
-            <div class="tlinks">
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24461105/page" target="_blank" rel="noopener">Create your call sheet with the AI Researcher <span class="arr" aria-hidden="true">↗</span></a>
-            </div>
           </div>
         </div>
       </div>
@@ -924,17 +976,19 @@
             <ul class="todos">
               <li class="todo" data-todo="step-3::instructions" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I read the instruction page</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I read the instruction page</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
               <li class="todo" data-todo="step-3::posted" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I posted my first question</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I posted my first question</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Post my first question <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
             </ul>
-            <div class="tlinks">
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Post my first question <span class="arr" aria-hidden="true">↗</span></a>
-            </div>
           </div>
         </div>
       </div>
@@ -957,17 +1011,19 @@
             <ul class="todos">
               <li class="todo" data-todo="step-5::instructions" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I read the instruction page</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I read the instruction page</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366189/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
               <li class="todo" data-todo="step-5::class" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I joined an Application Class</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I joined an Application Class</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366189/events" target="_blank" rel="noopener">Book my Application Class <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
             </ul>
-            <div class="tlinks">
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366189/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366189/events" target="_blank" rel="noopener">Book my Application Class <span class="arr" aria-hidden="true">↗</span></a>
-            </div>
           </div>
         </div>
       </div>
@@ -990,12 +1046,12 @@
             <ul class="todos">
               <li class="todo" data-todo="step-6::joined" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I joined a Lesko Help class</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I joined a Lesko Help class</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/7159013/events" target="_blank" rel="noopener">Book my Group Coaching Call <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
             </ul>
-            <div class="tlinks">
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/7159013/events" target="_blank" rel="noopener">Book my Group Coaching Call <span class="arr" aria-hidden="true">↗</span></a>
-            </div>
           </div>
         </div>
       </div>
@@ -1018,12 +1074,12 @@
             <ul class="todos">
               <li class="todo" data-todo="step-9::joined" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
-                <span class="todo-txt">I joined one of Matthew’s classes</span>
+                <span class="todo-main">
+                  <span class="todo-txt">I joined one of Matthew’s classes</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/spaces/21948411/events" target="_blank" rel="noopener">Book my seat with Matthew <span class="arr" aria-hidden="true">↗</span></a>
+                </span>
               </li>
             </ul>
-            <div class="tlinks">
-              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/21948411/events" target="_blank" rel="noopener">Book my seat with Matthew <span class="arr" aria-hidden="true">↗</span></a>
-            </div>
           </div>
         </div>
       </div>
@@ -1059,21 +1115,16 @@
   const total=items.length;
   document.getElementById('totalCount').textContent=total;
 
-  /* ── collapsible "Start here" ──
-     Folds itself away once all 5 are ticked, and can always be reopened. */
+  /* ── "Set up your account": collapsible, folds itself once all three are done ── */
   const obHead=document.getElementById('onboardHead');
   const obList=document.getElementById('onboardList');
+  const setupCard=document.getElementById('setupCard');
   let obAutoFolded=false;
   function setOnboard(open){
     obList.classList.toggle('collapsed',!open);
-    obHead.classList.toggle('collapsed',!open);
     obHead.setAttribute('aria-expanded',open?'true':'false');
-    document.getElementById('onboardFold').textContent=open?'Hide':'Show';
   }
   obHead.addEventListener('click',()=>setOnboard(obList.classList.contains('collapsed')));
-  obHead.addEventListener('keydown',e=>{
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();obHead.click();}
-  });
 
   const cheers=[
     [0,'Ready when you are — check off your first step! 🃏'],
@@ -1103,6 +1154,7 @@
     const obAllDone=obDone===obTotal;
     obChip.textContent=(obAllDone?'✓ ':'')+obDone+'/'+obTotal;
     obChip.classList.toggle('complete',obAllDone);
+    if(setupCard) setupCard.classList.toggle('done',obAllDone);
     document.getElementById('chipSteps').textContent=stDone+'/'+(total-obTotal);
 
     if(obAllDone){
@@ -1146,7 +1198,7 @@
       save(); update(true);
       document.dispatchEvent(new CustomEvent('lesko:stepdone'));
     });
-    if(el.classList.contains('mini-item')){
+    if(el.classList.contains('scard')){
       el.addEventListener('click',e=>{
         if(e.target.closest('.check')||e.target.closest('a'))return;
         check.click();
@@ -1275,7 +1327,7 @@
   }
 
   todos.forEach(t=>{
-    t.addEventListener('click',()=>toggleTodo(t));
+    t.addEventListener('click',e=>{ if(e.target.closest('a')) return; toggleTodo(t); });
     t.addEventListener('keydown',e=>{
       if(e.key===' '||e.key==='Enter'){ e.preventDefault(); toggleTodo(t); }
     });
