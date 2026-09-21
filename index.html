@@ -417,6 +417,107 @@
   .vmodal-foot{margin-top:10px;font-size:12.5px;color:var(--ink-mid)}
   .vmodal-foot a{color:var(--blue);font-weight:600}
   @media (max-width:480px){ .vmodal{padding:12px} .vmodal-box{padding:11px} }
+
+  /* ── WIDER COLUMN so the intro sits on 2–3 lines ── */
+  .wrap{max-width:760px}
+  h1{font-size:clamp(28px,5.2vw,38px);margin-bottom:12px}
+  .intro{max-width:none;font-size:15px}
+
+  /* ── SLIM PROGRESS ── */
+  .prog{position:relative;z-index:1;margin:0 0 32px}
+  .prog-row{display:flex;align-items:baseline;gap:12px;margin-bottom:7px}
+  .prog-row .lbl{
+    font-family:var(--mono);font-size:10px;font-weight:700;
+    letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mid);
+  }
+  .prog-row .num{
+    margin-left:auto;font-size:12.5px;color:var(--ink-mid);font-variant-numeric:tabular-nums;
+  }
+  .prog .bar{
+    height:9px;border:1.5px solid var(--ink);border-radius:100px;
+    background:var(--cream);overflow:hidden;
+  }
+  .prog .cheer{margin-top:8px;font-size:13px}
+
+  /* ── NUMBERED STEP TRACK ── */
+  .track{position:relative;z-index:1;list-style:none;margin:0 0 36px;padding:0}
+  .track::before{
+    content:'';position:absolute;left:20px;top:26px;bottom:26px;width:2px;
+    background:var(--line);z-index:0;
+  }
+  .tstep{position:relative;padding-left:58px;margin-bottom:12px}
+  .tdot{
+    position:absolute;left:0;top:11px;width:41px;height:41px;border-radius:50%;
+    border:2px solid var(--ink);background:#fff;color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-weight:700;font-size:18px;line-height:1;
+    box-shadow:0 0 0 5px var(--paper);z-index:2;transition:background .25s,color .25s;
+  }
+  .tstep.current .tdot{background:var(--yellow);box-shadow:0 0 0 5px var(--paper),3px 3px 0 var(--ink)}
+  .tstep.done .tdot{background:var(--green);border-color:var(--green-deep);color:#fff}
+  .tcard{
+    background:#fff;border:2px solid var(--ink);border-radius:10px;
+    box-shadow:4px 4px 0 var(--ink);overflow:hidden;transition:box-shadow .2s;
+  }
+  .tstep.current .tcard{box-shadow:5px 5px 0 var(--ink)}
+  .tstep.done .tcard{
+    background:#f3f8f1;border-color:var(--green-deep);box-shadow:3px 3px 0 var(--green-deep);
+  }
+  .thead{
+    width:100%;display:flex;align-items:flex-start;gap:12px;text-align:left;
+    background:none;border:0;padding:15px 17px;cursor:pointer;font:inherit;color:inherit;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .thead:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+  .thead-txt{flex:1;min-width:0}
+  .tkicker{
+    display:block;font-family:var(--mono);font-size:9.5px;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:4px;
+  }
+  .tstep.done .tkicker{color:var(--green-deep)}
+  .ttitle{
+    display:block;font-family:var(--serif);font-weight:600;font-size:18.5px;
+    letter-spacing:-.01em;line-height:1.25;
+  }
+  .tstep.done .ttitle{color:var(--ink-mid)}
+  .tsub{display:block;font-size:13px;color:var(--ink-mid);margin-top:4px}
+  .tstep.done .tsub{display:none}
+  .tchev{flex-shrink:0;font-size:12px;color:var(--ink-mid);transition:transform .25s;margin-top:7px}
+  .tstep.open .tchev{transform:rotate(180deg)}
+  .tbody{display:none;padding:0 17px 18px}
+  .tstep.open .tbody{display:block}
+  .tbody-in{padding-top:15px;border-top:1px solid var(--line-soft)}
+  .tbody p.step-desc{margin-bottom:14px}
+
+  /* inline video inside a step */
+  .tvideo{
+    position:relative;width:100%;padding-top:56.25%;background:#000;
+    border:2px solid var(--ink);border-radius:8px;overflow:hidden;margin-bottom:14px;
+  }
+  .tvideo iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+
+  /* mark-done control */
+  .tdone{
+    display:inline-flex;align-items:center;gap:7px;
+    background:#fff;border:2px solid var(--ink);border-radius:100px;
+    padding:7px 15px;font-size:12.5px;font-weight:600;font-family:var(--sans);
+    cursor:pointer;color:var(--ink);transition:background .15s,color .15s,border-color .15s;
+  }
+  .tdone:hover{background:var(--green);color:#fff;border-color:var(--green-deep)}
+  .tdone:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .tstep.done .tdone{background:var(--green);color:#fff;border-color:var(--green-deep)}
+  .tactions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px}
+
+  /* the three-ways note, nested inside a step */
+  .tbody .note-card{margin:26px 0 4px;transform:none}
+
+  @media (max-width:480px){
+    .tstep{padding-left:48px}
+    .track::before{left:17px}
+    .tdot{width:35px;height:35px;font-size:16px}
+    .thead{padding:13px 14px}
+    .tbody{padding:0 14px 15px}
+  }
 </style>
 
 <canvas id="confetti"></canvas>
@@ -426,56 +527,40 @@
   <span class="bg-q q2" aria-hidden="true">?</span>
 
   <header>
-    <div class="brandline">
-      <div class="logo-mark">?</div>
-      <div class="brand-name"><em>Lesko</em>Help</div>
-    </div>
-    <div class="eyebrow">Your Grant Roadmap</div>
     <h1>Every step you check brings you <em>closer</em> to <span class="hl">free money.</span></h1>
-    <p class="intro">Welcome! This roadmap shows you the way, step by step. Here's a secret: members who finish their full onboarding have up to <strong>90% more chance</strong> of finding a grant. <strong>Start Here</strong> can be done today. After that, just do one step a day — in about one week, you're through the whole roadmap. Easy does it. We're with you the whole way. 💛</p>
+    <p class="intro">Seven steps, in order. Each one opens when you get to it, so there is only ever one thing to do next — and members who finish the whole roadmap have far more chance of landing a grant. Do one a day and you are through in a week. 💛</p>
   </header>
 
   <!-- PROGRESS -->
-  <div class="progress-card">
-    <div class="progress-top">
-      <div>
-        <div class="progress-label">Your progress</div>
-        <div class="progress-pct"><span id="pct">0</span><sub>%</sub></div>
-      </div>
-      <div class="progress-count"><strong id="doneCount">0</strong> of <span id="totalCount">10</span> steps done</div>
+  <div class="prog">
+    <div class="prog-row">
+      <span class="lbl">Your progress</span>
+      <span class="num"><strong id="doneCount">0</strong> of <span id="totalCount">10</span> done · <span id="pct">0</span>%</span>
     </div>
-    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="barEl">
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Roadmap progress" id="barEl">
       <div class="bar-fill" id="barFill"></div>
     </div>
-    <div class="milestones" aria-hidden="true">
-      <span class="milestone s-spade" data-at="1">♠</span>
-      <span class="milestone s-heart" data-at="25">♥</span>
-      <span class="milestone s-diamond" data-at="50">♦</span>
-      <span class="milestone s-club" data-at="75">♣</span>
-      <span class="milestone s-spade" data-at="100">★</span>
-    </div>
-    <div class="cheer" id="cheer">Ready when you are — check off your first step! 🃏</div>
+    <div class="cheer" id="cheer">Ready when you are — start with step one. 🃏</div>
   </div>
 
-  <!-- START HERE -->
-  <div class="section-head sec-toggle" id="onboardHead" role="button" tabindex="0" aria-expanded="true" aria-controls="onboardList">
+  <!-- SET-UP (kept collapsed so the tour is the first thing open) -->
+  <div class="section-head sec-toggle collapsed" id="onboardHead" role="button" tabindex="0" aria-expanded="false" aria-controls="onboardList">
     <div class="section-suit" style="background:var(--yellow)">♠</div>
-    <h2>Start here</h2>
-    <span class="when-chip">Do this today</span>
+    <h2>First, set up your account</h2>
     <span class="count-chip" id="chipOnboard">0/3</span>
-    <span class="sec-fold" id="onboardFold">Hide</span>
+    <span class="sec-fold" id="onboardFold">Show</span>
     <span class="sec-chevron" aria-hidden="true">▾</span>
   </div>
-  <div class="onboard" id="onboardList">
+  <div class="onboard collapsed" id="onboardList">
     <p class="onboard-intro">
       <strong>Let’s get you set up</strong>
-      <span>The practical bits first. Three short steps, then straight on to the roadmap.</span>
+      <span>The practical bits. Three short steps — profile, notifications, and the app.</span>
     </p>
 
     <div class="mini-item s1" data-id="ob-profile">
-      <button class="check" aria-label="Mark step one done">✓</button>
+      <button class="check" aria-label="Mark: complete your profile">✓</button>
       <span class="txt">
-        <span class="step-kicker">Step one</span>
+        <span class="step-kicker">Set-up one</span>
         <span class="label">Complete your profile</span>
         <ul class="mini-list">
           <li>Add your first name and last name</li>
@@ -490,9 +575,9 @@
     </div>
 
     <div class="mini-item s2" data-id="ob-notifications">
-      <button class="check" aria-label="Mark step two done">✓</button>
+      <button class="check" aria-label="Mark: adjust your notifications">✓</button>
       <span class="txt">
-        <span class="step-kicker">Step two</span>
+        <span class="step-kicker">Set-up two</span>
         <span class="label">Adjust your notifications</span>
         <ul class="mini-list">
           <li>Keep your email notifications <strong>on</strong> — daily is best</li>
@@ -505,9 +590,9 @@
     </div>
 
     <div class="mini-item s3" data-id="ob-app">
-      <button class="check" aria-label="Mark step three done">✓</button>
+      <button class="check" aria-label="Mark: download the app">✓</button>
       <span class="txt">
-        <span class="step-kicker">Step three</span>
+        <span class="step-kicker">Set-up three</span>
         <span class="label">Download the app<span class="badge-important">Super important</span></span>
         <ul class="mini-list">
           <li>Scan the QR code with your phone camera</li>
@@ -530,112 +615,192 @@
   <!-- ROADMAP -->
   <div class="section-head">
     <div class="section-suit" style="background:var(--red);color:#fff">♥</div>
-    <h2>The roadmap</h2>
-    <span class="when-chip">Do this this week</span>
+    <h2>Your seven steps</h2>
     <span class="count-chip" id="chipSteps">0/7</span>
   </div>
 
-  <!-- NOTE: each data-id stays glued to its own card, so a member's saved
-       progress keeps pointing at the same step even after the days are reordered. -->
-  <div class="roadmap" id="stepList">
+  <!-- NOTE: each data-id stays glued to its own step. That string is the key the
+       warehouse joins on, so renaming one detaches every member's saved progress.
+       The ids are deliberately out of order so steps can be re-sequenced freely. -->
+  <ol class="track" id="stepList">
 
-    <div class="step" data-id="step-2">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 1 done">✓</button></div>
-      <div class="step-card c-blue">
-        <div class="step-meta"><span class="step-num">Day 1</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
-        <h3>Take the Community Tour</h3>
-        <p class="step-desc">Watch the tour video and get going right now — it plays right here, you won't lose your place. Rather have it live? We run a Welcome Meetup every single day: we show you how the community works, what to do first, and you can ask us anything.</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366161/page" target="_blank" rel="noopener">▶ Watch the tour video</a>
-          <a class="btn-note" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a Welcome Meetup →</a>
+    <li class="tstep" data-id="step-2">
+      <span class="tdot" aria-hidden="true">1</span>
+      <div class="tcard">
+        <button class="thead" type="button" aria-expanded="false">
+          <span class="thead-txt">
+            <span class="tkicker">Step 1 · ~10 min</span>
+            <span class="ttitle">Take the Community Tour</span>
+            <span class="tsub">Watch the tour and see how everything works.</span>
+          </span>
+          <span class="tchev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tbody">
+          <div class="tbody-in">
+            <div class="tvideo">
+              <iframe src="https://www.loom.com/embed/fa6bce0bca764039bb0868518153f584"
+                      title="The welcome tour video" loading="lazy"
+                      allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p class="step-desc">This is the whole community in one go: what lives where, what to do first, and how to get help. Rather have it live? We run a Welcome Meetup every single day, and you can ask us anything.</p>
+            <div class="tactions">
+              <button class="tdone" type="button">Mark step 1 done</button>
+              <a class="btn-note" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a Welcome Meetup →</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="step" data-id="step-8">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 2 done">✓</button></div>
-      <div class="step-card c-red">
-        <div class="step-meta"><span class="step-num">Day 2</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
-        <h3>Join a Call Sheet Class</h3>
-        <p class="step-desc">Your call sheet is your personal list of grants — your treasure map. In this live class our team helps you build yours, step by step. There are three ways to get one, and we explain all of them below.</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24440881/events" target="_blank" rel="noopener">Save my seat →</a>
+    <li class="tstep" data-id="step-8">
+      <span class="tdot" aria-hidden="true">2</span>
+      <div class="tcard">
+        <button class="thead" type="button" aria-expanded="false">
+          <span class="thead-txt">
+            <span class="tkicker">Step 2 · live class</span>
+            <span class="ttitle">Join a Call Sheet Class</span>
+            <span class="tsub">Build your personal list of grants, with our team.</span>
+          </span>
+          <span class="tchev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tbody">
+          <div class="tbody-in">
+            <p class="step-desc">Your call sheet is your personal list of grants — your treasure map. In this live class our team helps you build yours, step by step. There are three ways to get one, and we explain all of them below.</p>
+            <div class="tactions">
+              <button class="tdone" type="button">Mark step 2 done</button>
+              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24440881/events" target="_blank" rel="noopener">Save my seat →</a>
+            </div>
+            <div class="note-card">
+              <span class="note-card-tag">Good to know</span>
+              <h4>Three ways to get your call sheet</h4>
+              <ol>
+                <li><strong>Go to a Call Sheet Class</strong> — one of our grant experts helps you create your call sheet, live.</li>
+                <li><strong>Make one yourself</strong> with the help of our LeskoHelp AI Researcher.</li>
+                <li><strong>Ask a question in the Questions channel</strong> — one of our team members will make a call sheet for you, or answer your question.</li>
+              </ol>
+              <p class="note-card-foot">Try out all three ways and collect one or more call sheets!</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="note-card">
-      <span class="note-card-tag">Good to know</span>
-      <h4>Three ways to get your call sheet</h4>
-      <ol>
-        <li><strong>Go to a Call Sheet Class</strong> — one of our grant experts helps you create your call sheet, live.</li>
-        <li><strong>Make one yourself</strong> with the help of our LeskoHelp AI Researcher.</li>
-        <li><strong>Ask a question in the Questions channel</strong> — one of our team members will make a call sheet for you, or answer your question.</li>
-      </ol>
-      <p class="note-card-foot">Try out all three ways and collect one or more call sheets!</p>
-    </div>
-
-    <div class="step" data-id="step-4">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 3 done">✓</button></div>
-      <div class="step-card c-yellow">
-        <div class="step-meta"><span class="step-num">Day 3</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
-        <h3>Use the AI Researcher</h3>
-        <p class="step-desc">The second way to get a call sheet — and you can do it right now, on your own. Tell our AI Researcher what you need help with and it finds the grant programs for you.</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24461105/page" target="_blank" rel="noopener">Open the AI Researcher →</a>
+    <li class="tstep" data-id="step-4">
+      <span class="tdot" aria-hidden="true">3</span>
+      <div class="tcard">
+        <button class="thead" type="button" aria-expanded="false">
+          <span class="thead-txt">
+            <span class="tkicker">Step 3 · do it yourself</span>
+            <span class="ttitle">Use the AI Researcher</span>
+            <span class="tsub">The second way to get a call sheet — right now, on your own.</span>
+          </span>
+          <span class="tchev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tbody">
+          <div class="tbody-in">
+            <p class="step-desc">Tell our AI Researcher what you need help with and it finds the grant programs for you. No waiting for a class — you can do this in the next ten minutes.</p>
+            <div class="tactions">
+              <button class="tdone" type="button">Mark step 3 done</button>
+              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24461105/page" target="_blank" rel="noopener">Open the AI Researcher →</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="step" data-id="step-3">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 4 done">✓</button></div>
-      <div class="step-card c-green">
-        <div class="step-meta"><span class="step-num">Day 4</span><span class="suit" style="color:var(--green)">♣</span><span class="done-chip">✓ Done</span></div>
-        <h3>Ask a Question in the Questions Channel</h3>
-        <p class="step-desc">The third way to get your call sheet — and the way to get anything else unstuck. Ask, and one of our expert grant coaches answers. There are no silly questions here; asking is how you win.</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Ask a question →</a>
+    <li class="tstep" data-id="step-3">
+      <span class="tdot" aria-hidden="true">4</span>
+      <div class="tcard">
+        <button class="thead" type="button" aria-expanded="false">
+          <span class="thead-txt">
+            <span class="tkicker">Step 4 · ask us</span>
+            <span class="ttitle">Ask a Question in the Questions Channel</span>
+            <span class="tsub">The third way — and how to get anything else unstuck.</span>
+          </span>
+          <span class="tchev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tbody">
+          <div class="tbody-in">
+            <p class="step-desc">Ask, and one of our expert grant coaches answers. They will even build a call sheet for you. There are no silly questions here; asking is how you win.</p>
+            <div class="tactions">
+              <button class="tdone" type="button">Mark step 4 done</button>
+              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Ask a question →</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="step" data-id="step-5">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 5 done">✓</button></div>
-      <div class="step-card c-blue">
-        <div class="step-meta"><span class="step-num">Day 5</span><span class="suit" style="color:var(--blue)">♠</span><span class="done-chip">✓ Done</span></div>
-        <h3>Join an Application Class</h3>
-        <p class="step-desc">You know where to go — now learn how to actually ask. We walk you through making your first call and sending your applications, live and step by step.</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366189/events" target="_blank" rel="noopener">Join an application class →</a>
+    <li class="tstep" data-id="step-5">
+      <span class="tdot" aria-hidden="true">5</span>
+      <div class="tcard">
+        <button class="thead" type="button" aria-expanded="false">
+          <span class="thead-txt">
+            <span class="tkicker">Step 5 · live class</span>
+            <span class="ttitle">Join an Application Class</span>
+            <span class="tsub">How to make the call and how to send the application.</span>
+          </span>
+          <span class="tchev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tbody">
+          <div class="tbody-in">
+            <p class="step-desc">You know where to go — now learn how to actually ask. We walk you through making your first call and sending your applications, live and step by step.</p>
+            <div class="tactions">
+              <button class="tdone" type="button">Mark step 5 done</button>
+              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366189/events" target="_blank" rel="noopener">Join an application class →</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="step" data-id="step-6">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 6 done">✓</button></div>
-      <div class="step-card c-red">
-        <div class="step-meta"><span class="step-num">Day 6</span><span class="suit" style="color:var(--red)">♥</span><span class="done-chip">✓ Done</span></div>
-        <h3>Join a Group Coaching Call</h3>
-        <p class="step-desc">You have your call sheet and you know how to start — now the real questions come. That's what group coaching is for: answers, motivation, best practices, and real help getting your grant. Join as many as you can!</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/7159013/events" target="_blank" rel="noopener">Save my seat →</a>
+    <li class="tstep" data-id="step-6">
+      <span class="tdot" aria-hidden="true">6</span>
+      <div class="tcard">
+        <button class="thead" type="button" aria-expanded="false">
+          <span class="thead-txt">
+            <span class="tkicker">Step 6 · every week</span>
+            <span class="ttitle">Join a Group Coaching Call</span>
+            <span class="tsub">Answers, motivation and real help — as often as you like.</span>
+          </span>
+          <span class="tchev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tbody">
+          <div class="tbody-in">
+            <p class="step-desc">You have your call sheet and you know how to start — now the real questions come. That is what group coaching is for: answers, motivation, best practices, and real help getting your grant. Join as many as you can!</p>
+            <div class="tactions">
+              <button class="tdone" type="button">Mark step 6 done</button>
+              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/7159013/events" target="_blank" rel="noopener">Save my seat →</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </li>
 
-    <div class="step" data-id="step-9">
-      <div class="step-check-col"><button class="check" aria-label="Mark day 7 done">✓</button></div>
-      <div class="step-card c-yellow">
-        <div class="step-meta"><span class="step-num">Day 7</span><span class="suit" style="color:var(--yellow-warm)">♦</span><span class="done-chip">✓ Done</span></div>
-        <h3>Join a Let's Go Help Meetup with Matthew</h3>
-        <p class="step-desc">The best for last: talk to Matthew live. Bring your questions, hear what's working for other members, and get his tips first-hand. This is where it all comes together.</p>
-        <div class="step-actions">
-          <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/21948411/events" target="_blank" rel="noopener">Meet Matthew live →</a>
+    <li class="tstep" data-id="step-9">
+      <span class="tdot" aria-hidden="true">7</span>
+      <div class="tcard">
+        <button class="thead" type="button" aria-expanded="false">
+          <span class="thead-txt">
+            <span class="tkicker">Step 7 · with Matthew</span>
+            <span class="ttitle">Join a Let’s Go Help Meetup</span>
+            <span class="tsub">Talk to Matthew live. The best for last.</span>
+          </span>
+          <span class="tchev" aria-hidden="true">▾</span>
+        </button>
+        <div class="tbody">
+          <div class="tbody-in">
+            <p class="step-desc">Bring your questions, hear what is working for other members, and get Matthew’s tips first-hand. This is where it all comes together.</p>
+            <div class="tactions">
+              <button class="tdone" type="button">Mark step 7 done</button>
+              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/21948411/events" target="_blank" rel="noopener">Meet Matthew live →</a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </li>
 
-  </div>
+  </ol>
 
   <!-- REWARD -->
   <div class="reward" id="rewardCard">
@@ -653,17 +818,6 @@
        page you are looking at is a fresh build or a cached/older deployment.
        Bump it whenever you push a change you want to be able to confirm. -->
   <p class="mock-note">Your progress is saved in this browser · Updated 21 September 2026</p>
-</div>
-
-<div class="vmodal" id="tourModal" role="dialog" aria-modal="true" aria-label="The welcome tour video">
-  <div class="vmodal-box">
-    <div class="vmodal-head">
-      <h4>The Welcome Tour</h4>
-      <button class="vmodal-close" id="tourClose" type="button" aria-label="Close the video">✕</button>
-    </div>
-    <div class="vmodal-ratio" id="tourFrame"></div>
-    <p class="vmodal-foot">Rather come along live? <a href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a Welcome Meetup →</a></p>
-  </div>
 </div>
 
 <script>
@@ -706,7 +860,7 @@
     items.forEach(el=>{
       const id=el.dataset.id, on=!!state.checked[id];
       el.classList.toggle('done',on);
-      el.querySelector('.check').classList.toggle('on',on);
+      el.querySelector('.check, .tdone').classList.toggle('on',on);
       if(on){done++; id.startsWith('ob-')?obDone++:stDone++;}
     });
     const pct=Math.round(done/total*100);
@@ -723,8 +877,6 @@
 
     if(obAllDone){
       if(!obAutoFolded){ obAutoFolded=true; setOnboard(false); }
-    } else if(obAutoFolded){
-      obAutoFolded=false; setOnboard(true);
     }
     document.querySelectorAll('.milestone').forEach(m=>{
       m.classList.toggle('lit',pct>=+m.dataset.at);
@@ -756,12 +908,13 @@
 
   items.forEach(el=>{
     const id=el.dataset.id;
-    const check=el.querySelector('.check');
+    const check=el.querySelector('.check, .tdone');
     check.addEventListener('click',e=>{
       e.stopPropagation();
       state.checked[id]=!state.checked[id];
       if(!state.checked[id]) delete state.checked[id];
       save(); update(true);
+      document.dispatchEvent(new CustomEvent('lesko:stepdone'));
     });
     if(el.classList.contains('mini-item')){
       el.addEventListener('click',e=>{
@@ -816,84 +969,49 @@
     if(parts.length){raf=requestAnimationFrame(tick)}else{raf=null;cx.clearRect(0,0,cv.width,cv.height)}
   }
 
+
+  /* ── THE ACCORDION ──
+     One step open at a time: whichever is the first not-yet-done step. Finishing
+     one collapses it and opens the next, so there is only ever one thing to do.
+     Headers stay clickable, so any step can be reopened to look back at it. */
+  const tsteps=[...document.querySelectorAll('.tstep')];
+
+  function openStep(el){
+    tsteps.forEach(s=>{
+      const on = s===el;
+      s.classList.toggle('open',on);
+      const h=s.querySelector('.thead');
+      if(h) h.setAttribute('aria-expanded',on?'true':'false');
+    });
+  }
+
+  function firstUnfinished(){
+    return tsteps.find(s=>!state.checked[s.dataset.id]) || null;
+  }
+
+  function markCurrent(){
+    const cur=firstUnfinished();
+    tsteps.forEach(s=>s.classList.toggle('current',s===cur));
+    return cur;
+  }
+
+  tsteps.forEach(s=>{
+    const head=s.querySelector('.thead');
+    if(head) head.addEventListener('click',()=>{
+      openStep(s.classList.contains('open')?null:s);
+    });
+  });
+
+  // When a step is completed, move on to the next one automatically.
+  document.addEventListener('lesko:stepdone',()=>{
+    const cur=markCurrent();
+    if(cur) openStep(cur);
+  });
+
+  markCurrent();
+  openStep(firstUnfinished());
+
   update(false);
 
-})();
-</script>
-
-<!-- ──────────────────────────────────────────────────────────────
-     THE WELCOME TOUR VIDEO
-
-     Deliberately its own script block, separate from the roadmap's
-     main script, and it listens on the document rather than the button
-     itself. That way the pop-up keeps working even if the script above
-     hits a problem, or if the buttons get re-rendered underneath it.
-
-     To change the video, edit the one line below. YouTube, Vimeo, Loom,
-     Google Drive share links and direct .mp4 links all work. Leave it
-     empty and the button simply opens the community page instead.
-     ────────────────────────────────────────────────────────────── -->
-<script>
-(function(){
-  var TOUR_VIDEO = 'https://www.loom.com/share/fa6bce0bca764039bb0868518153f584';
-
-  var url = (TOUR_VIDEO || '').trim();
-  if(!url) return;
-
-  function embedFor(u){
-    var m;
-    if((m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/)))
-      return {tag:'iframe', src:'https://www.youtube.com/embed/'+m[1]+'?rel=0&modestbranding=1&autoplay=1'};
-    if((m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/)))
-      return {tag:'iframe', src:'https://player.vimeo.com/video/'+m[1]+'?autoplay=1'};
-    if((m = u.match(/loom\.com\/(?:share|embed)\/([\w-]+)/)))
-      return {tag:'iframe', src:'https://www.loom.com/embed/'+m[1]+'?autoplay=1'};
-    if((m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/)))
-      return {tag:'iframe', src:'https://drive.google.com/file/d/'+m[1]+'/preview'};
-    if(/\.(mp4|webm|ogg|mov)(\?|$)/i.test(u)) return {tag:'video', src:u};
-    return {tag:'iframe', src:u};
-  }
-
-  function modal(){ return document.getElementById('tourModal'); }
-
-  function shut(){
-    var m = modal(); if(!m) return;
-    m.classList.remove('open');
-    var f = document.getElementById('tourFrame');
-    if(f) f.innerHTML = '';                    // stops playback
-    document.body.style.overflow = '';
-  }
-
-  function open(){
-    var m = modal(), f = document.getElementById('tourFrame');
-    if(!m || !f) return false;
-    var v = embedFor(url);
-    f.innerHTML = v.tag === 'video'
-      ? '<video controls autoplay playsinline src="' + v.src + '"></video>'
-      : '<iframe src="' + v.src + '" title="The welcome tour video" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>';
-    m.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    var c = document.getElementById('tourClose');
-    if(c) c.focus();
-    return true;
-  }
-
-  /* Delegated, and captured early, so it wins even if something else
-     handles the click first. */
-  document.addEventListener('click', function(e){
-    var t = e.target;
-    var link = t && t.closest ? t.closest('a') : null;
-    if(link && /watch the tour video/i.test(link.textContent || '')){
-      if(open()){ e.preventDefault(); e.stopPropagation(); }
-      return;
-    }
-    if(t && t.id === 'tourClose'){ e.preventDefault(); shut(); return; }
-    if(t && t.id === 'tourModal'){ shut(); }
-  }, true);
-
-  document.addEventListener('keydown', function(e){
-    var m = modal();
-    if(e.key === 'Escape' && m && m.classList.contains('open')) shut();
-  });
 })();
 </script>
