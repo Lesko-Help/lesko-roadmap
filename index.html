@@ -869,6 +869,35 @@
     .scard{padding:14px 14px 0}
     .sticker{left:14px}
   }
+
+  /* ══ CARDS: EVEN BASELINES, STICKERS ON THE RIGHT ══ */
+
+  .sticker{left:auto;right:20px}
+  @media (max-width:620px){ .sticker{right:14px;left:auto} }
+
+  /* title · note fills the gap · link · rule · Done — so all three line up */
+  .scard{padding:16px 16px 0}
+  .scard h4{margin:0 0 7px}
+  .scard-note{
+    flex:1 1 auto;margin:0 0 12px;
+    font-family:var(--serif);font-style:italic;font-size:13px;line-height:1.45;
+    color:var(--ink-mid);
+  }
+  .scard > .tlink{font-size:13px;padding-bottom:0;margin-bottom:12px}
+  .scard .todos{
+    margin:0;padding:11px 0 13px;
+    border-top:1px solid rgba(14,26,43,.14);
+  }
+  .scard .todo{padding:0;align-items:center}
+  .scard .todo-txt{
+    font-family:var(--mono);font-size:11px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mid);
+  }
+  .scard .todo.on .todo-txt{text-decoration:none;color:var(--green-deep)}
+
+  /* finished: strike the title, keep the card at full strength */
+  .scard.done{opacity:1}
+  .scard.done h4{text-decoration:line-through;text-decoration-thickness:1.5px}
 </style>
 
 <canvas id="confetti"></canvas>
@@ -911,33 +940,36 @@
 
         <div class="scard c-red" data-id="ob-profile">
           <h4>Complete my profile</h4>
+          <p class="scard-note">People help you faster when they can see who you are.</p>
           <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile <span class="arr" aria-hidden="true">↗</span></a>
           <ul class="todos">
             <li class="todo" data-todo="ob-profile::done" role="checkbox" tabindex="0" aria-checked="false">
               <span class="todo-box" aria-hidden="true">✓</span>
-              <span class="todo-main"><span class="todo-txt">I added my name and picture</span></span>
+              <span class="todo-main"><span class="todo-txt">Done</span></span>
             </li>
           </ul>
         </div>
 
         <div class="scard c-blue" data-id="ob-notifications">
           <h4>Adjust my notifications</h4>
+          <p class="scard-note">So you never miss a class or an answer.</p>
           <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications <span class="arr" aria-hidden="true">↗</span></a>
           <ul class="todos">
             <li class="todo" data-todo="ob-notifications::done" role="checkbox" tabindex="0" aria-checked="false">
               <span class="todo-box" aria-hidden="true">✓</span>
-              <span class="todo-main"><span class="todo-txt">I adjusted my notifications</span></span>
+              <span class="todo-main"><span class="todo-txt">Done</span></span>
             </li>
           </ul>
         </div>
 
         <div class="scard c-green" data-id="ob-app">
           <h4>Get the app</h4>
+          <p class="scard-note">Take Lesko Help with you, everywhere you go.</p>
           <a class="tlink" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app <span class="arr" aria-hidden="true">↗</span></a>
           <ul class="todos">
             <li class="todo" data-todo="ob-app::done" role="checkbox" tabindex="0" aria-checked="false">
               <span class="todo-box" aria-hidden="true">✓</span>
-              <span class="todo-main"><span class="todo-txt">I downloaded the app</span></span>
+              <span class="todo-main"><span class="todo-txt">Done</span></span>
             </li>
           </ul>
         </div>
@@ -947,7 +979,7 @@
 
   <!-- ROADMAP -->
   <div class="setup roadmap-frame" id="roadmapCard">
-    <span class="sticker sticker-blue">Then do this</span>
+    <span class="sticker sticker-blue">Your success guide</span>
     <div class="setup-head static">
       <span class="setup-head-txt">
         <span class="setup-kicker">Now follow the roadmap</span>
