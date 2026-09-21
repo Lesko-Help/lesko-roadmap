@@ -804,6 +804,71 @@
   .scard.done{background:#f2f8f0;border-color:rgba(79,168,79,.55);box-shadow:none}
 
   @media (max-width:620px){ .scard{padding:14px} }
+
+  /* ══ TWO FRAMES, FROSTED SET-UP CARDS, STICKERS ══ */
+
+  .setup{overflow:visible}
+  .sticker{
+    position:absolute;top:-12px;left:20px;z-index:3;
+    font-family:var(--mono);font-size:10px;font-weight:700;
+    letter-spacing:.13em;text-transform:uppercase;
+    background:var(--yellow);color:var(--ink);
+    border:1.5px solid var(--ink);border-radius:5px;padding:4px 10px;
+    transform:rotate(-1.6deg);box-shadow:2px 2px 0 rgba(14,26,43,.18);
+  }
+  .sticker-blue{background:var(--blue);color:#fff;border-color:var(--blue-deep)}
+
+  .setup-head.static{cursor:default}
+  .roadmap-frame{margin-bottom:36px}
+  .roadmap-frame .setup-body{padding:0 18px 20px}
+  .roadmap-frame .track{margin:0;padding-top:16px;border-top:1px solid rgba(14,26,43,.09)}
+  .roadmap-frame .track::before{top:16px}
+  .roadmap-frame .tstep:first-child::after{top:16px}
+
+  /* ── frosted colour cards ── */
+  .scard{
+    display:flex;flex-direction:column;
+    padding:16px 16px 0;border-radius:14px;border:1px solid;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  }
+  .scard h4{font-size:16.5px;margin:0 0 10px;line-height:1.25}
+  .scard > .tlink{font-size:13px;padding-bottom:13px}
+  .scard .todos{
+    margin:auto 0 0;padding:11px 0 14px;
+    border-top:1px solid rgba(14,26,43,.12);
+  }
+  .scard .todo{padding:0}
+  .scard .todo-txt{font-size:13px;line-height:1.35}
+
+  .scard.c-red{
+    background:linear-gradient(160deg,rgba(230,57,70,.16),rgba(230,57,70,.07));
+    border-color:rgba(230,57,70,.34);
+  }
+  .scard.c-red h4{color:var(--red-deep)}
+  .scard.c-blue{
+    background:linear-gradient(160deg,rgba(44,63,160,.15),rgba(44,63,160,.06));
+    border-color:rgba(44,63,160,.32);
+  }
+  .scard.c-blue h4{color:var(--blue-deep)}
+  .scard.c-green{
+    background:linear-gradient(160deg,rgba(79,168,79,.18),rgba(79,168,79,.07));
+    border-color:rgba(79,168,79,.36);
+  }
+  .scard.c-green h4{color:var(--green-deep)}
+  .scard:hover{transform:translateY(-1px)}
+  .scard{transition:transform .18s,box-shadow .18s,opacity .25s}
+
+  /* done: settle back, do not recolour — the tick says it */
+  .scard.done{opacity:.62;box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+  .scard.done h4{text-decoration:line-through;text-decoration-thickness:1.5px}
+  /* the sticker marks what to do first, so cards keep their own colour */
+  .scard.current{box-shadow:inset 0 1px 0 rgba(255,255,255,.65)}
+
+  @media (max-width:620px){
+    .scard{padding:14px 14px 0}
+    .sticker{left:14px}
+  }
 </style>
 
 <canvas id="confetti"></canvas>
@@ -830,6 +895,7 @@
 
   <!-- SET UP YOUR ACCOUNT — one card, three cards inside, collapsible -->
   <div class="setup" id="setupCard">
+    <span class="sticker">Do this first</span>
     <button class="setup-head" id="onboardHead" type="button" aria-expanded="true" aria-controls="onboardList">
       <span class="setup-head-txt">
         <span class="setup-kicker">Before you start</span>
@@ -843,41 +909,35 @@
     <div class="setup-body" id="onboardList">
       <div class="setup-grid">
 
-        <div class="scard" data-id="ob-profile">
-          <h4>Complete your profile</h4>
+        <div class="scard c-red" data-id="ob-profile">
+          <h4>Complete my profile</h4>
+          <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile <span class="arr" aria-hidden="true">↗</span></a>
           <ul class="todos">
             <li class="todo" data-todo="ob-profile::done" role="checkbox" tabindex="0" aria-checked="false">
               <span class="todo-box" aria-hidden="true">✓</span>
-              <span class="todo-main">
-                <span class="todo-txt">I added my name and picture</span>
-                <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile <span class="arr" aria-hidden="true">↗</span></a>
-              </span>
+              <span class="todo-main"><span class="todo-txt">I added my name and picture</span></span>
             </li>
           </ul>
         </div>
 
-        <div class="scard" data-id="ob-notifications">
-          <h4>Adjust your notifications</h4>
+        <div class="scard c-blue" data-id="ob-notifications">
+          <h4>Adjust my notifications</h4>
+          <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications <span class="arr" aria-hidden="true">↗</span></a>
           <ul class="todos">
             <li class="todo" data-todo="ob-notifications::done" role="checkbox" tabindex="0" aria-checked="false">
               <span class="todo-box" aria-hidden="true">✓</span>
-              <span class="todo-main">
-                <span class="todo-txt">I adjusted my notifications</span>
-                <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications <span class="arr" aria-hidden="true">↗</span></a>
-              </span>
+              <span class="todo-main"><span class="todo-txt">I adjusted my notifications</span></span>
             </li>
           </ul>
         </div>
 
-        <div class="scard" data-id="ob-app">
+        <div class="scard c-green" data-id="ob-app">
           <h4>Get the app</h4>
+          <a class="tlink" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app <span class="arr" aria-hidden="true">↗</span></a>
           <ul class="todos">
             <li class="todo" data-todo="ob-app::done" role="checkbox" tabindex="0" aria-checked="false">
               <span class="todo-box" aria-hidden="true">✓</span>
-              <span class="todo-main">
-                <span class="todo-txt">I downloaded the app</span>
-                <a class="tlink" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app <span class="arr" aria-hidden="true">↗</span></a>
-              </span>
+              <span class="todo-main"><span class="todo-txt">I downloaded the app</span></span>
             </li>
           </ul>
         </div>
@@ -886,11 +946,16 @@
   </div>
 
   <!-- ROADMAP -->
-  <div class="section-head">
-    <div class="section-suit" style="background:var(--red);color:#fff">♥</div>
-    <h2>Now do your 7 steps</h2>
-    <span class="count-chip" id="chipSteps">0/7</span>
-  </div>
+  <div class="setup roadmap-frame" id="roadmapCard">
+    <span class="sticker sticker-blue">Then do this</span>
+    <div class="setup-head static">
+      <span class="setup-head-txt">
+        <span class="setup-kicker">Now follow the roadmap</span>
+        <span class="setup-title">Complete all 7 steps</span>
+        <span class="setup-sub">Your road to finding grants. One step at a time.</span>
+      </span>
+    </div>
+    <div class="setup-body">
 
   <!-- NOTE: each data-id stays glued to its own step. That string is the key the
        warehouse joins on, so renaming one detaches every member's saved progress.
@@ -1142,6 +1207,8 @@
     </li>
 
   </ol>
+    </div>
+  </div>
 
   <!-- REWARD -->
   <div class="reward" id="rewardCard">
@@ -1219,7 +1286,6 @@
     obChip.textContent=(obAllDone?'✓ ':'')+obDone+'/'+obTotal;
     obChip.classList.toggle('complete',obAllDone);
     if(setupCard) setupCard.classList.toggle('done',obAllDone);
-    document.getElementById('chipSteps').textContent=stDone+'/'+(total-obTotal);
 
     if(obAllDone){
       if(!obAutoFolded){ obAutoFolded=true; setOnboard(false); }
