@@ -622,6 +622,75 @@
     .thead{padding:15px 14px}
     .tchev{width:30px;height:30px}
   }
+
+  /* ══ TO-DOS, RED ACTIVE MARKER, JOINED-UP SPINE ══ */
+
+  /* the line runs the full height behind the discs, so it meets them exactly */
+  .track::before{
+    top:0;bottom:0;left:21px;width:2px;
+    background:rgba(14,26,43,.13);
+  }
+  .tdot{box-shadow:none;border-width:1.5px}
+  .tstep:first-child::after,.tstep:last-child::after{
+    content:'';position:absolute;left:20px;width:4px;background:var(--paper);z-index:1;
+  }
+  .tstep:first-child::after{top:0;height:14px}
+  .tstep:last-child::after{top:57px;bottom:0}
+
+  /* the step you are on: red disc, red halo, red-edged card */
+  .tstep.current .tdot{
+    background:var(--red);border-color:var(--red);color:#fff;
+    box-shadow:0 0 0 4px rgba(230,57,70,.20);
+  }
+  .tstep.current .tcard{
+    border-color:rgba(230,57,70,.40);
+    box-shadow:0 0 0 3px rgba(230,57,70,.08),0 2px 14px rgba(230,57,70,.10);
+  }
+  .tstep.current .tkicker,.tstep.current .tchev{color:var(--red)}
+  .tstep.done .tdot{background:var(--green);border-color:var(--green);color:#fff;box-shadow:none}
+
+  /* to-do checkboxes */
+  .todos{list-style:none;margin:2px 0 16px;padding:0}
+  .todo{
+    display:flex;align-items:flex-start;gap:12px;padding:9px 0;cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .todo + .todo{border-top:1px solid rgba(14,26,43,.07)}
+  .todo:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:6px}
+  .todo-box{
+    width:23px;height:23px;flex-shrink:0;margin-top:1px;border-radius:7px;
+    border:1.5px solid rgba(14,26,43,.30);background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;line-height:1;color:transparent;
+    transition:background .18s,border-color .18s,color .18s,transform .15s;
+  }
+  .todo:hover .todo-box{border-color:var(--ink)}
+  .todo.on .todo-box{
+    background:var(--green);border-color:var(--green);color:#fff;
+    animation:pop .3s cubic-bezier(.22,2.2,.4,1);
+  }
+  .todo-txt{font-size:14.5px;line-height:1.45}
+  .todo.on .todo-txt{color:var(--ink-mid);text-decoration:line-through;text-decoration-color:rgba(79,168,79,.7)}
+
+  /* links instead of heavy buttons */
+  .tlinks{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+  .tlink{
+    display:inline-flex;align-items:center;gap:6px;
+    color:var(--blue);font-weight:600;font-size:14px;text-decoration:none;
+  }
+  .tlink:hover{text-decoration:underline;text-underline-offset:3px}
+  .tlink:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+  .tlink .arr{font-size:13px}
+
+  /* good-to-know card in blue */
+  .tbody .note-card{background:var(--blue);border-color:rgba(14,26,43,.18)}
+  .tbody .note-card li strong{color:var(--yellow)}
+
+  @media (max-width:480px){
+    .track::before{left:18px}
+    .tstep:first-child::after,.tstep:last-child::after{left:17px}
+    .tstep:last-child::after{top:51px}
+  }
 </style>
 
 <canvas id="confetti"></canvas>
@@ -741,14 +810,22 @@
         <div class="tbody">
           <div class="tbody-in">
             <div class="tvideo">
-              <iframe src="https://www.loom.com/embed/fa6bce0bca764039bb0868518153f584"
-                      title="The welcome tour video" loading="lazy"
+              <iframe src="https://www.loom.com/embed/fa6bce0bca764039bb0868518153f584" title="The welcome tour video" loading="lazy"
                       allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
             </div>
-            <p class="step-desc">Watch this first. It shows you where everything is and what to do each day. Want a live tour instead? Join a Welcome Meetup. We run one every day.</p>
-            <div class="tactions">
-              <button class="tdone" type="button">Mark step 1 done</button>
-              <a class="btn-note" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Book a live tour →</a>
+            <p class="step-desc">Watch the video first. It shows you where everything is and what to do each day. Want it live? Join a Welcome Meetup. We run one every day.</p>
+            <ul class="todos">
+              <li class="todo" data-todo="step-2::video" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I watched the welcome tour video</span>
+              </li>
+              <li class="todo" data-todo="step-2::meetup" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I joined a Welcome Meetup</span>
+              </li>
+            </ul>
+            <div class="tlinks">
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366161/events" target="_blank" rel="noopener">Join a live Welcome Meetup <span class="arr" aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -768,10 +845,24 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Book a class. Our team builds your call sheet with you, live. You need a call sheet before you can start calling. There are 3 ways to get one. Pick any of them.</p>
-            <div class="tactions">
-              <button class="tdone" type="button">Mark step 2 done</button>
-              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24440881/events" target="_blank" rel="noopener">Book my class →</a>
+            <p class="step-desc">You need a call sheet before you can start calling. Read the instructions first, then book a class. There are 3 ways to get a call sheet — pick any of them.</p>
+            <ul class="todos">
+              <li class="todo" data-todo="step-8::instructions" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I read the instruction page</span>
+              </li>
+              <li class="todo" data-todo="step-8::class-a" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I joined an AI Workshop class</span>
+              </li>
+              <li class="todo" data-todo="step-8::class-b" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I joined an AI User Skills class</span>
+              </li>
+            </ul>
+            <div class="tlinks">
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24440881/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24440881/events" target="_blank" rel="noopener">Book my Call Sheet Class <span class="arr" aria-hidden="true">↗</span></a>
             </div>
             <div class="note-card">
               <span class="note-card-tag">Good to know</span>
@@ -794,17 +885,22 @@
         <button class="thead" type="button" aria-expanded="false">
           <span class="thead-txt">
             <span class="tkicker">Step 3</span>
-            <span class="ttitle">Use the AI Researcher</span>
+            <span class="ttitle">Create Your Call Sheet with the AI Researcher</span>
             <span class="tsub">Make your own call sheet. 10 minutes.</span>
           </span>
           <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Open the AI Researcher. Type what you need money for. It gives you the grants to call. Do this today. You do not have to wait for a class.</p>
-            <div class="tactions">
-              <button class="tdone" type="button">Mark step 3 done</button>
-              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24461105/page" target="_blank" rel="noopener">Open the AI Researcher →</a>
+            <p class="step-desc">Type what you need money for. The AI Researcher gives you the grants to call. Do this today. You do not have to wait for a class.</p>
+            <ul class="todos">
+              <li class="todo" data-todo="step-4::sheet" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I created my first call sheet</span>
+              </li>
+            </ul>
+            <div class="tlinks">
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24461105/page" target="_blank" rel="noopener">Create your call sheet with the AI Researcher <span class="arr" aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -817,17 +913,27 @@
         <button class="thead" type="button" aria-expanded="false">
           <span class="thead-txt">
             <span class="tkicker">Step 4</span>
-            <span class="ttitle">Ask Your Question</span>
+            <span class="ttitle">Ask Your First Question in the Questions Channel</span>
             <span class="tsub">Stuck? Ask. We answer.</span>
           </span>
           <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Post your question in the Questions Channel. A grant coach answers you. They can make your call sheet for you too. Ask anything. No question is too small.</p>
-            <div class="tactions">
-              <button class="tdone" type="button">Mark step 4 done</button>
-              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Post my question →</a>
+            <p class="step-desc">Read the instruction page, then post your question. A grant coach answers you. They can make your call sheet for you too. No question is too small.</p>
+            <ul class="todos">
+              <li class="todo" data-todo="step-3::instructions" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I read the instruction page</span>
+              </li>
+              <li class="todo" data-todo="step-3::posted" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I posted my first question</span>
+              </li>
+            </ul>
+            <div class="tlinks">
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/11054387/page" target="_blank" rel="noopener">Post my first question <span class="arr" aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -847,10 +953,20 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Book an Application Class. We show you what to say on the phone. We show you how to send your application. Bring your call sheet.</p>
-            <div class="tactions">
-              <button class="tdone" type="button">Mark step 5 done</button>
-              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/24366189/events" target="_blank" rel="noopener">Book my class →</a>
+            <p class="step-desc">We show you what to say on the phone and how to send your application. Read the instruction page first. Bring your call sheet to the class.</p>
+            <ul class="todos">
+              <li class="todo" data-todo="step-5::instructions" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I read the instruction page</span>
+              </li>
+              <li class="todo" data-todo="step-5::class" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I joined an Application Class</span>
+              </li>
+            </ul>
+            <div class="tlinks">
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366189/page" target="_blank" rel="noopener">Read the instruction page <span class="arr" aria-hidden="true">↗</span></a>
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/24366189/events" target="_blank" rel="noopener">Book my Application Class <span class="arr" aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -870,10 +986,15 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Join a Group Coaching Call. Bring your questions. Hear what worked for other members. Come as often as you like.</p>
-            <div class="tactions">
-              <button class="tdone" type="button">Mark step 6 done</button>
-              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/7159013/events" target="_blank" rel="noopener">Book my seat →</a>
+            <p class="step-desc">Bring your questions. Hear what worked for other members. Come as often as you like.</p>
+            <ul class="todos">
+              <li class="todo" data-todo="step-6::joined" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I joined a Lesko Help class</span>
+              </li>
+            </ul>
+            <div class="tlinks">
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/7159013/events" target="_blank" rel="noopener">Book my Group Coaching Call <span class="arr" aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -893,10 +1014,15 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Join a Let’s Go Help Meetup. Ask Matthew about your grant search. Come with one question ready.</p>
-            <div class="tactions">
-              <button class="tdone" type="button">Mark step 7 done</button>
-              <a class="btn-go" href="https://lesko-help-2.mn.co/spaces/21948411/events" target="_blank" rel="noopener">Book my seat →</a>
+            <p class="step-desc">Ask Matthew about your grant search. Come with one question ready.</p>
+            <ul class="todos">
+              <li class="todo" data-todo="step-9::joined" role="checkbox" tabindex="0" aria-checked="false">
+                <span class="todo-box" aria-hidden="true">✓</span>
+                <span class="todo-txt">I joined one of Matthew’s classes</span>
+              </li>
+            </ul>
+            <div class="tlinks">
+              <a class="tlink" href="https://lesko-help-2.mn.co/spaces/21948411/events" target="_blank" rel="noopener">Book my seat with Matthew <span class="arr" aria-hidden="true">↗</span></a>
             </div>
           </div>
         </div>
@@ -963,7 +1089,8 @@
     items.forEach(el=>{
       const id=el.dataset.id, on=!!state.checked[id];
       el.classList.toggle('done',on);
-      el.querySelector('.check, .tdone').classList.toggle('on',on);
+      const c=el.querySelector('.check');
+      if(c) c.classList.toggle('on',on);
       if(on){done++; id.startsWith('ob-')?obDone++:stDone++;}
     });
     const pct=Math.round(done/total*100);
@@ -1010,7 +1137,8 @@
 
   items.forEach(el=>{
     const id=el.dataset.id;
-    const check=el.querySelector('.check, .tdone');
+    const check=el.querySelector('.check');
+    if(!check) return;
     check.addEventListener('click',e=>{
       e.stopPropagation();
       state.checked[id]=!state.checked[id];
@@ -1109,6 +1237,51 @@
     const cur=markCurrent();
     if(cur) openStep(cur);
   });
+
+
+  /* ── TO-DOS ──
+     A step counts as done when every one of its to-dos is ticked, so the
+     step-level data-id the warehouse joins on keeps its old meaning. */
+  const todos=[...document.querySelectorAll('.todo')];
+  if(!state.todos) state.todos={};
+
+  function paintTodos(){
+    todos.forEach(t=>{
+      const on=!!state.todos[t.dataset.todo];
+      t.classList.toggle('on',on);
+      t.setAttribute('aria-checked',on?'true':'false');
+    });
+  }
+
+  function syncStepsFromTodos(){
+    let changed=false;
+    tsteps.forEach(stp=>{
+      const mine=todos.filter(t=>t.dataset.todo.split('::')[0]===stp.dataset.id);
+      if(!mine.length) return;
+      const all=mine.every(t=>state.todos[t.dataset.todo]);
+      const was=!!state.checked[stp.dataset.id];
+      if(all&&!was){ state.checked[stp.dataset.id]=true; changed=true; }
+      if(!all&&was){ delete state.checked[stp.dataset.id]; changed=true; }
+    });
+    return changed;
+  }
+
+  function toggleTodo(t){
+    const k=t.dataset.todo;
+    if(state.todos[k]) delete state.todos[k]; else state.todos[k]=true;
+    const advanced=syncStepsFromTodos();
+    save(); paintTodos(); update(true);
+    if(advanced){ const cur=markCurrent(); if(cur) openStep(cur); }
+  }
+
+  todos.forEach(t=>{
+    t.addEventListener('click',()=>toggleTodo(t));
+    t.addEventListener('keydown',e=>{
+      if(e.key===' '||e.key==='Enter'){ e.preventDefault(); toggleTodo(t); }
+    });
+  });
+
+  syncStepsFromTodos(); paintTodos();
 
   markCurrent();
   openStep(firstUnfinished());
