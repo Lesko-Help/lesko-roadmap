@@ -1045,7 +1045,7 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">You need a call sheet before you can start calling. Read the instructions first, then book a class. There are 3 ways to get a call sheet — pick any of them.</p>
+            <p class="step-desc">You need one or more call sheets before you can start calling. There are 3 ways to get your call sheets. Try all of them.</p>
             <ul class="todos">
               <li class="todo" data-todo="step-8::instructions" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
@@ -1097,7 +1097,7 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Type what you need money for. The AI Researcher gives you the grants to call. Do this today. You do not have to wait for a class.</p>
+            <p class="step-desc">Choose your grant domain and where you live. The AI Researcher will create your grant call sheet. Do this today. You do not have to wait for a class.</p>
             <ul class="todos">
               <li class="todo" data-todo="step-4::sheet" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
@@ -1125,7 +1125,7 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Read the instruction page, then post your question. A grant coach answers you. They can make your call sheet for you too. No question is too small.</p>
+            <p class="step-desc">Want to learn how to ask a good question? Read the instruction page first. Then post your first question in the Questions Channel. A grant coach answers you. They can make your call sheet for you too.</p>
             <ul class="todos">
               <li class="todo" data-todo="step-3::instructions" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
@@ -1160,7 +1160,7 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">We show you what to say on the phone and how to send your application. Read the instruction page first. Bring your call sheet to the class.</p>
+            <p class="step-desc">Now you have your call sheets. In this class you learn how to apply for grants: how to make the calls, how to write the emails, how to apply online, and how to follow up your applications. Bring your call sheet.</p>
             <ul class="todos">
               <li class="todo" data-todo="step-5::instructions" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
@@ -1195,7 +1195,7 @@
         </button>
         <div class="tbody">
           <div class="tbody-in">
-            <p class="step-desc">Bring your questions. Hear what worked for other members. Come as often as you like.</p>
+            <p class="step-desc">Once you start applying for grants, you will have many questions. Join as many group coaching calls as you can. Come as often as you like. Bring your questions and hear what worked for other members.</p>
             <ul class="todos">
               <li class="todo" data-todo="step-6::joined" role="checkbox" tabindex="0" aria-checked="false">
                 <span class="todo-box" aria-hidden="true">✓</span>
@@ -1250,7 +1250,7 @@
       <div class="small">Grant<br>Searcher</div>
     </div>
     <h2 id="rewardTitle">Finish the roadmap and get <em>your first badge</em></h2>
-    <p id="rewardText">Do every step. Then you will know how to find grants on your own — and you will have a badge to prove it.</p>
+    <p id="rewardText">Do every step. Then you will know how to find grants on your own, and you will have a badge to prove it.</p>
     <span class="locked-note" id="rewardLock">🔒 Keep going</span>
   </div>
 
@@ -1285,9 +1285,9 @@
   obHead.addEventListener('click',()=>setOnboard(obList.classList.contains('collapsed')));
 
   const cheers=[
-    [0,'Ready when you are — check off your first step! 🃏'],
+    [0,'Ready when you are. Check off your first step! 🃏'],
     [1,'Great start! Keep the momentum going.'],
-    [25,'A quarter of the way — you’re doing this!'],
+    [25,'A quarter of the way. You’re doing this!'],
     [50,'Halfway there. Matthew would be proud. 💛'],
     [75,'So close! Your badge is almost yours…'],
     [100,'YOU DID IT! 🎉 Roadmap complete!']
@@ -1334,7 +1334,7 @@
     if(pct===100){
       if(!reward.classList.contains('unlocked')){
         reward.classList.add('unlocked');
-        document.getElementById('rewardTitle').innerHTML='🎉 You did it — <em>badge earned.</em>';
+        document.getElementById('rewardTitle').innerHTML='🎉 You did it. <em>Badge earned.</em>';
         document.getElementById('rewardText').innerHTML='Every step done. You know how to find grants now. Go and get your money. 💛';
         document.getElementById('rewardLock').textContent='★ Badge earned ★';
         document.querySelector('.reward-stamp .big').textContent='★';
@@ -1343,7 +1343,7 @@
     } else {
       reward.classList.remove('unlocked');
       document.getElementById('rewardTitle').innerHTML='Finish the roadmap and get <em>your first badge</em>';
-      document.getElementById('rewardText').innerHTML='Do every step. Then you will know how to find grants on your own — and you will have a badge to prove it.';
+      document.getElementById('rewardText').innerHTML='Do every step. Then you will know how to find grants on your own, and you will have a badge to prove it.';
       document.getElementById('rewardLock').innerHTML='🔒 '+left+' step'+(left===1?'':'s')+' to go';
       document.querySelector('.reward-stamp .big').textContent='?';
     }
