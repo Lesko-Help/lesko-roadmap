@@ -762,6 +762,48 @@
     .setup-grid{grid-template-columns:1fr;gap:10px}
     .scard{padding:13px}
   }
+
+  /* ══ EVERY BOX COUNTS · GREEN AHEAD, RED NOW, GREEN DONE ══ */
+
+  /* upcoming steps: green outline, not grey */
+  .tdot{border-width:2px;border-color:rgba(79,168,79,.55);color:var(--green-deep);background:#fff}
+  .tstep.current .tdot{
+    background:var(--red);border-color:var(--red);color:#fff;
+    box-shadow:0 0 0 4px rgba(230,57,70,.20);
+  }
+  .tstep.done .tdot{
+    background:var(--green);border-color:var(--green);color:#fff;
+    box-shadow:0 0 0 4px rgba(79,168,79,.22);
+  }
+  .tcard{border-color:rgba(79,168,79,.34)}
+  .tstep.done .tcard{border-color:rgba(79,168,79,.55)}
+  .tkicker{color:var(--green-deep)}
+  .tchev{color:var(--green-deep)}
+  .track::before{background:rgba(79,168,79,.28)}
+
+  /* ── SET-UP CARDS: title, then the box, then the link ── */
+  .scard{padding:15px 15px 16px}
+  .scard-n{display:none}
+  .scard .check{display:none}
+  .scard h4{
+    font-family:var(--serif);font-weight:600;font-size:16px;
+    margin:0 0 4px;line-height:1.25;
+  }
+  .scard .todos{margin:0;border-top:1px solid rgba(14,26,43,.08);padding-top:9px}
+  .scard .todo{padding:4px 0}
+  .scard .todo + .todo{border-top:0}
+  .scard .todo-txt{font-size:13.5px}
+  .scard .tlink{font-size:12.5px}
+
+  /* the set-up card you should do next, marked the same way as the live step */
+  .scard{border-color:rgba(79,168,79,.4)}
+  .scard.current{
+    border-color:rgba(230,57,70,.45);
+    box-shadow:0 0 0 3px rgba(230,57,70,.09);
+  }
+  .scard.done{background:#f2f8f0;border-color:rgba(79,168,79,.55);box-shadow:none}
+
+  @media (max-width:620px){ .scard{padding:14px} }
 </style>
 
 <canvas id="confetti"></canvas>
@@ -802,29 +844,43 @@
       <div class="setup-grid">
 
         <div class="scard" data-id="ob-profile">
-          <button class="check" aria-label="Mark: complete your profile">✓</button>
-          <span class="scard-n">1</span>
           <h4>Complete your profile</h4>
-          <p>Add your name, your photo and your time zone.</p>
-          <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile <span class="arr" aria-hidden="true">↗</span></a>
+          <ul class="todos">
+            <li class="todo" data-todo="ob-profile::done" role="checkbox" tabindex="0" aria-checked="false">
+              <span class="todo-box" aria-hidden="true">✓</span>
+              <span class="todo-main">
+                <span class="todo-txt">I added my name and picture</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/profile" target="_blank" rel="noopener">Open my profile <span class="arr" aria-hidden="true">↗</span></a>
+              </span>
+            </li>
+          </ul>
         </div>
 
         <div class="scard" data-id="ob-notifications">
-          <button class="check" aria-label="Mark: turn on your notifications">✓</button>
-          <span class="scard-n">2</span>
-          <h4>Turn on notifications</h4>
-          <p>Pick daily email, so you never miss a class.</p>
-          <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications <span class="arr" aria-hidden="true">↗</span></a>
+          <h4>Adjust your notifications</h4>
+          <ul class="todos">
+            <li class="todo" data-todo="ob-notifications::done" role="checkbox" tabindex="0" aria-checked="false">
+              <span class="todo-box" aria-hidden="true">✓</span>
+              <span class="todo-main">
+                <span class="todo-txt">I adjusted my notifications</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/your-settings/notifications" target="_blank" rel="noopener">Open my notifications <span class="arr" aria-hidden="true">↗</span></a>
+              </span>
+            </li>
+          </ul>
         </div>
 
         <div class="scard" data-id="ob-app">
-          <button class="check" aria-label="Mark: download the app">✓</button>
-          <span class="scard-n">3</span>
           <h4>Get the app</h4>
-          <p>Log in with the same email and password.</p>
-          <a class="tlink" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app <span class="arr" aria-hidden="true">↗</span></a>
+          <ul class="todos">
+            <li class="todo" data-todo="ob-app::done" role="checkbox" tabindex="0" aria-checked="false">
+              <span class="todo-box" aria-hidden="true">✓</span>
+              <span class="todo-main">
+                <span class="todo-txt">I downloaded the app</span>
+                <a class="tlink" href="https://lesko-help-2.mn.co/download-app" target="_blank" rel="noopener">Download the app <span class="arr" aria-hidden="true">↗</span></a>
+              </span>
+            </li>
+          </ul>
         </div>
-
       </div>
     </div>
   </div>
@@ -1094,9 +1150,9 @@
       <div class="big">?</div>
       <div class="small">Grant<br>Searcher</div>
     </div>
-    <h2 id="rewardTitle">Finish all 10 and get <em>your first badge</em></h2>
+    <h2 id="rewardTitle">Finish the roadmap and get <em>your first badge</em></h2>
     <p id="rewardText">Do every step. Then you will know how to find grants on your own — and you will have a badge to prove it.</p>
-    <span class="locked-note" id="rewardLock">🔒 10 steps to go</span>
+    <span class="locked-note" id="rewardLock">🔒 Keep going</span>
   </div>
 
   <!-- The date is a deliberate marker: it tells you at a glance whether the
@@ -1112,7 +1168,10 @@
   const save=()=>localStorage.setItem(KEY,JSON.stringify(state));
 
   const items=[...document.querySelectorAll('[data-id]')];
-  const total=items.length;
+  /* Progress is measured in checkboxes, not steps: every box a member ticks
+     moves the bar, so the small wins are visible. */
+  const boxes=[...document.querySelectorAll('.todo')];
+  const total=boxes.length;
   document.getElementById('totalCount').textContent=total;
 
   /* ── "Set up your account": collapsible, folds itself once all three are done ── */
@@ -1136,20 +1195,25 @@
   ];
 
   function update(animate){
-    let done=0, obDone=0, stDone=0;
+    let obDone=0, stDone=0;
     items.forEach(el=>{
       const id=el.dataset.id, on=!!state.checked[id];
       el.classList.toggle('done',on);
       const c=el.querySelector('.check');
       if(c) c.classList.toggle('on',on);
-      if(on){done++; id.startsWith('ob-')?obDone++:stDone++;}
+      if(on){ id.startsWith('ob-')?obDone++:stDone++; }
     });
+    const done=boxes.filter(t=>state.todos[t.dataset.todo]).length;
+    /* the first unfinished set-up card gets the same red marker as the live step */
+    const scards=[...document.querySelectorAll('.scard')];
+    const nextSetup=scards.find(c=>!state.checked[c.dataset.id]);
+    scards.forEach(c=>c.classList.toggle('current',c===nextSetup));
     const pct=Math.round(done/total*100);
     document.getElementById('pct').textContent=pct;
     document.getElementById('doneCount').textContent=done;
     document.getElementById('barFill').style.width=pct+'%';
     document.getElementById('barEl').setAttribute('aria-valuenow',pct);
-    const obTotal=items.filter(el=>el.dataset.id.startsWith('ob-')).length;
+    const obTotal=scards.length;
     const obChip=document.getElementById('chipOnboard');
     const obAllDone=obDone===obTotal;
     obChip.textContent=(obAllDone?'✓ ':'')+obDone+'/'+obTotal;
@@ -1173,14 +1237,14 @@
       if(!reward.classList.contains('unlocked')){
         reward.classList.add('unlocked');
         document.getElementById('rewardTitle').innerHTML='🎉 You did it — <em>badge earned.</em>';
-        document.getElementById('rewardText').innerHTML='All 10 steps done. You know how to find grants now. Go and get your money. 💛';
+        document.getElementById('rewardText').innerHTML='Every step done. You know how to find grants now. Go and get your money. 💛';
         document.getElementById('rewardLock').textContent='★ Badge earned ★';
         document.querySelector('.reward-stamp .big').textContent='★';
         if(animate) confettiBurst();
       }
     } else {
       reward.classList.remove('unlocked');
-      document.getElementById('rewardTitle').innerHTML='Finish all 10 and get <em>your first badge</em>';
+      document.getElementById('rewardTitle').innerHTML='Finish the roadmap and get <em>your first badge</em>';
       document.getElementById('rewardText').innerHTML='Do every step. Then you will know how to find grants on your own — and you will have a badge to prove it.';
       document.getElementById('rewardLock').innerHTML='🔒 '+left+' step'+(left===1?'':'s')+' to go';
       document.querySelector('.reward-stamp .big').textContent='?';
@@ -1307,7 +1371,7 @@
 
   function syncStepsFromTodos(){
     let changed=false;
-    tsteps.forEach(stp=>{
+    [...tsteps, ...document.querySelectorAll('.scard')].forEach(stp=>{
       const mine=todos.filter(t=>t.dataset.todo.split('::')[0]===stp.dataset.id);
       if(!mine.length) return;
       const all=mine.every(t=>state.todos[t.dataset.todo]);
