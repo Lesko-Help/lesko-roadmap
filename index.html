@@ -518,6 +518,110 @@
     .thead{padding:13px 14px}
     .tbody{padding:0 14px 15px}
   }
+
+  /* ══ REFINEMENT PASS ══
+     Thin lines and a soft glow instead of hard offset shadows, which were
+     making the page look busy. Same palette throughout. */
+
+  /* progress: one even blue line, and the count set in the label's own type */
+  .prog-row .num{
+    font-family:var(--mono);font-size:10px;font-weight:700;
+    letter-spacing:.15em;text-transform:uppercase;color:var(--ink-mid);
+  }
+  .prog-row .num strong{font-weight:700;color:var(--ink)}
+  .prog .bar{
+    height:8px;border:0;border-radius:100px;
+    background:rgba(14,26,43,.09);overflow:hidden;
+  }
+  .prog .bar-fill{
+    background:var(--blue);border-radius:100px;
+    transition:width .5s cubic-bezier(.22,1,.36,1);
+  }
+
+  /* the numbered markers — sans numerals so they sit dead centre */
+  .track::before{
+    left:21px;width:1px;
+    background:linear-gradient(180deg,transparent,rgba(14,26,43,.16) 8%,rgba(14,26,43,.16) 92%,transparent);
+  }
+  .tstep{padding-left:60px;margin-bottom:14px}
+  .tdot{
+    left:0;top:14px;width:43px;height:43px;
+    font-family:var(--sans);font-weight:600;font-size:16px;line-height:1;
+    font-variant-numeric:tabular-nums;letter-spacing:0;
+    border:1px solid rgba(14,26,43,.18);background:#fff;color:var(--ink-mid);
+    box-shadow:0 0 0 6px var(--paper);
+  }
+  .tstep.current .tdot{
+    background:var(--blue);border-color:var(--blue);color:#fff;
+    box-shadow:0 0 0 6px var(--paper),0 0 0 9px rgba(44,63,160,.13),0 3px 10px rgba(44,63,160,.28);
+  }
+  .tstep.done .tdot{
+    background:var(--green);border-color:var(--green);color:#fff;
+    box-shadow:0 0 0 6px var(--paper);
+  }
+
+  /* cards: fine border, no hard shadow, a gentle glow on the one you're on */
+  .tcard{
+    border:1px solid rgba(14,26,43,.13);border-radius:14px;
+    box-shadow:0 1px 2px rgba(14,26,43,.04);
+    transition:border-color .25s, box-shadow .25s, background .25s;
+  }
+  .tstep.current .tcard{
+    border-color:rgba(44,63,160,.38);
+    box-shadow:0 0 0 3px rgba(44,63,160,.09), 0 2px 14px rgba(44,63,160,.10);
+  }
+  .tstep.done .tcard{
+    background:#f6faf5;border-color:rgba(53,122,53,.28);box-shadow:none;
+  }
+  .thead{padding:17px 18px;align-items:center}
+  .tkicker{
+    font-size:9px;letter-spacing:.18em;color:var(--ink-mid);margin-bottom:5px;
+  }
+  .tstep.current .tkicker{color:var(--blue)}
+  .tstep.done .tkicker{color:var(--green-deep)}
+  .ttitle{font-size:19px}
+  .tbody{padding:0 18px 20px}
+  .tbody-in{border-top:1px solid rgba(14,26,43,.09);padding-top:16px}
+
+  /* chevron: large enough to actually see and hit */
+  .tchev{
+    display:flex;align-items:center;justify-content:center;
+    width:34px;height:34px;margin-top:0;border-radius:50%;
+    color:var(--ink-mid);transition:transform .25s, background .15s, color .15s;
+  }
+  .thead:hover .tchev{background:rgba(14,26,43,.06);color:var(--ink)}
+  .tstep.current .tchev{color:var(--blue)}
+  .tchev svg{display:block}
+
+  /* the nested note card, calmed down to match */
+  .tbody .note-card{
+    box-shadow:none;border:1px solid rgba(14,26,43,.16);border-radius:12px;
+  }
+  .tbody .note-card-tag{border-width:1px}
+
+  /* section headers lose their hard shadows too */
+  .section-suit{box-shadow:none;border-width:1px;border-radius:9px}
+  .count-chip{border-width:1px}
+
+  /* video + buttons, lightened to match */
+  .tvideo{border:1px solid rgba(14,26,43,.16);border-radius:10px}
+  .tdone{
+    border:1px solid rgba(14,26,43,.22);border-radius:100px;
+    padding:9px 17px;font-size:13px;
+  }
+  .tstep.current .tdone{border-color:var(--blue);color:var(--blue)}
+  .tstep.current .tdone:hover{background:var(--blue);color:#fff}
+  .tbody .btn-note,.tbody .btn-go{border-radius:100px}
+  .tbody .btn-note{border-width:1px}
+
+  @media (max-width:480px){
+    .tstep{padding-left:50px}
+    .track::before{left:18px}
+    .tdot{width:37px;height:37px;font-size:15px;box-shadow:0 0 0 5px var(--paper)}
+    .tstep.current .tdot{box-shadow:0 0 0 5px var(--paper),0 0 0 8px rgba(44,63,160,.13)}
+    .thead{padding:15px 14px}
+    .tchev{width:30px;height:30px}
+  }
 </style>
 
 <canvas id="confetti"></canvas>
@@ -540,7 +644,6 @@
     <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Roadmap progress" id="barEl">
       <div class="bar-fill" id="barFill"></div>
     </div>
-    <div class="cheer" id="cheer">Ready when you are — start with step one. 🃏</div>
   </div>
 
   <!-- SET-UP (kept collapsed so the tour is the first thing open) -->
@@ -629,11 +732,11 @@
       <div class="tcard">
         <button class="thead" type="button" aria-expanded="false">
           <span class="thead-txt">
-            <span class="tkicker">Step 1 · ~10 min</span>
+            <span class="tkicker">Step 1</span>
             <span class="ttitle">Take the Community Tour</span>
             <span class="tsub">Watch the tour and see how everything works.</span>
           </span>
-          <span class="tchev" aria-hidden="true">▾</span>
+          <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
@@ -661,7 +764,7 @@
             <span class="ttitle">Join a Call Sheet Class</span>
             <span class="tsub">Build your personal list of grants, with our team.</span>
           </span>
-          <span class="tchev" aria-hidden="true">▾</span>
+          <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
@@ -694,7 +797,7 @@
             <span class="ttitle">Use the AI Researcher</span>
             <span class="tsub">The second way to get a call sheet — right now, on your own.</span>
           </span>
-          <span class="tchev" aria-hidden="true">▾</span>
+          <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
@@ -717,7 +820,7 @@
             <span class="ttitle">Ask a Question in the Questions Channel</span>
             <span class="tsub">The third way — and how to get anything else unstuck.</span>
           </span>
-          <span class="tchev" aria-hidden="true">▾</span>
+          <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
@@ -740,7 +843,7 @@
             <span class="ttitle">Join an Application Class</span>
             <span class="tsub">How to make the call and how to send the application.</span>
           </span>
-          <span class="tchev" aria-hidden="true">▾</span>
+          <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
@@ -763,7 +866,7 @@
             <span class="ttitle">Join a Group Coaching Call</span>
             <span class="tsub">Answers, motivation and real help — as often as you like.</span>
           </span>
-          <span class="tchev" aria-hidden="true">▾</span>
+          <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
@@ -786,7 +889,7 @@
             <span class="ttitle">Join a Let’s Go Help Meetup</span>
             <span class="tsub">Talk to Matthew live. The best for last.</span>
           </span>
-          <span class="tchev" aria-hidden="true">▾</span>
+          <span class="tchev" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
         </button>
         <div class="tbody">
           <div class="tbody-in">
@@ -884,7 +987,6 @@
     let msg=cheers[0][1];
     cheers.forEach(([at,txt])=>{ if(pct>=at) msg=txt; });
     if(done===0) msg=cheers[0][1];
-    document.getElementById('cheer').textContent=msg;
 
     const reward=document.getElementById('rewardCard');
     const left=total-done;
